@@ -2,7 +2,7 @@ import ComponentTitleHome from "../component/ComponentHome/ComponentTitleHome"
 // import ComponentRecommand from "../component/ComponentHome/ComponentRecommand"
 import ComponentPopularFeature from "../component/ComponentHome/ComponentPopularFeature"
 import ComponentNavbarTour from "../component/ComponentHome/ComponentNavbarTour"
-import ComponentChooseBrand from "../component/ComponentHome/ComponentChooseBrand"
+// import ComponentChooseBrand from "../component/ComponentHome/ComponentChooseBrand"
 import ComponentTopRate from "../component/ComponentHome/ComponentTopRate"
 // import ComponentBottonBar from "../component/ComponentHome/ComponentBottonBar"
 // import ComponentTest from "../component/ComponentTest/ComponentTest"
@@ -21,10 +21,12 @@ const HomePage = () => {
             <ComponentTitleHome/>
             <ComponentPopularFeature/>
             <ComponentNavbarTour/>
-            <div className="bg-gray-100">
+            {/* <div className="bg-gray-100">
                 <ComponentChooseBrand />
+            </div> */}
+            <div className="bg-gray-100">
+                <ComponentTopRate/>
             </div>
-            <ComponentTopRate/>
             <ComponentBottonBar/>
             {/* <ComponentTest/> */}
         </>

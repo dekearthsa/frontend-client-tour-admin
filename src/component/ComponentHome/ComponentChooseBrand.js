@@ -1,23 +1,4 @@
-// import {useState, useEffect} from "react";
-// import axios from "axios";
-
-
-
 const ComponentChooseBrand = () => {
-
-    // const data = {
-        
-    // }
-
-    // const [isChooseBrandData, setChooseBrandData] = useState();
-
-    // const haddleFetch = () => {
-    
-    // }
-    
-    // useEffect(() => {
-    
-    // },[]);
 
 
     return (
@@ -28,12 +9,9 @@ const ComponentChooseBrand = () => {
                     Our USPs
                 </div>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mt-2">
-                    {/* <input /> */}
                     Reasons to Choose Amazing Asia Tours
                 </h2>
             </div>
-
-            {/* Features Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                 <div className="bg-white rounded-xl shadow-lg p-8 transition-transform duration-500 hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF5959" className="w-20 h-20 mx-auto mb-6">

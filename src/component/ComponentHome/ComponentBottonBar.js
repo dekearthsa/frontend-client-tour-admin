@@ -1,6 +1,44 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from "axios";
 
 const ComponentBottonBar = () => {
+
+    const [isEmail, setEmail] = useState();
+    const [isPhone, setPhone] = useState();
+
+    const demoData = {
+        email: "reservation.psdntianna@gmail.com",
+        phone: "+66898512076 , +66834784611",
+    }
+
+    const haddleFetch = () => {
+        setEmail(demoData.email);
+        setPhone(demoData.phone)
+    }
+
+    const haddleUpdate = async () => {
+        const payload = {
+            email: isEmail,
+            phone: isPhone,
+        }
+
+        const updateStatus = await axios.post("", payload);
+        try{
+            if(updateStatus.status === 200){
+                alert("update success!");
+            }else{
+                alert(updateStatus.status);
+            }
+        }catch(err){
+            alert(err)
+        }
+    }
+
+    useEffect(() => {
+        haddleFetch();
+    },[])
+
     return (
         <div id="c-bottom-bar" className="bg-red-500 w-full py-6 flex flex-col md:flex-row justify-between items-center">
             {/* Contact Section */}
@@ -13,14 +51,34 @@ const ComponentBottonBar = () => {
                             <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
                         </svg>
                         <span className="font-bold text-white ml-3">
-                            reservation.psdntianna@gmail.com
+                            <input
+                                className='text-black w-[300px] rounded-md'
+                                value={isEmail}
+                                onChange={(evt) => {
+                                    setEmail(evt.target.value)
+                                }}
+                            />
                         </span>
                     </div>
                     <div className="flex items-center">
                         <img width={25} height={25} src={require("../../img/whatsapp (1).png")} alt="WhatsApp" className="lg:ml-10" />
                         <span className="font-bold text-white ml-3">
-                            +66898512076 , +66834784611
+                            <input
+                                className='text-black  w-[300px] rounded-md'
+                                value={isPhone}
+                                onChange={(evt) => {
+                                    setPhone(evt.target.value)
+                                }}
+                            />
                         </span>
+                    </div>
+                    <div>
+                        <button 
+                            className='ml-5 bg-gray-600 text-white text-[20px] pl-2 pr-2 rounded-md'
+                            onClick={()=> {
+                                haddleUpdate();
+                            }}
+                        >update</button>
                     </div>
                 </div>
             </div>

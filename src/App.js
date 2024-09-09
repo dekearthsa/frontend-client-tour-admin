@@ -21,7 +21,7 @@ function App() {
           <Route path="/shop" element={<ShopPage/>}/>
           <Route path="/contact" element={<AboutPage/>}/>
           {/* <Route path="/about" element={<ContactPage/>}></Route> */}
-          <Route path="/about" element={<ComponentAdminAddingProductDetail/>}></Route>
+          <Route path="/create_product" element={<ComponentAdminAddingProductDetail/>}></Route>
           <Route path="/product/:name" element={<ProductDetail/>}/>
         </Routes>
         {/* <ComponentBottonBar/> */}

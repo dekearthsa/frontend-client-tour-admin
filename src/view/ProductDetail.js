@@ -4,6 +4,8 @@ import ComponentHomeNavbar from '../component/ComponentHome/ComponentHomeNavbar'
 import ComponentBottonBar from '../component/ComponentHome/ComponentBottonBar';
 import ComponentStarToprate from '../component/ComponentHome/ComponentStarToprate';
 import ComponentProductDetailPopup from "../component/ComponentShop/ComponentProductDetailPopup";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const ProductDetail = () => {
     const [countImage, setCountImage] = useState();
@@ -20,12 +22,39 @@ const ProductDetail = () => {
     const content = searchParams.get("content");
     const setContentJSON = JSON.parse(content);
 
+    const navigate = useNavigate();
+    
     const haddlePopup = () => {
         if (!isPopup) {
             setPopup(true)
         } else {
             setPopup(false)
         }
+    }
+
+    const haddleRemove = async () => {
+        const payload = {
+            title: title
+        }
+        const statusRemove = await axios.post("", payload);
+        try{
+            if(statusRemove.status === 200){
+                alert("remove success!")
+                window.location.reload();
+            }else{
+                alert(statusRemove.status)
+            }
+        }catch(err){
+            alert(err)
+        }
+    }
+
+    const haddleEditMode = () => {
+        
+    }
+
+    const haddleNavigateCreate = () => {
+        navigate("/create_product")
     }
 
     useEffect(() => {
@@ -49,6 +78,23 @@ const ProductDetail = () => {
                     </div>
 
                     <div className="container mx-auto px-4 py-12">
+                        <div className='flex'>
+                            <div className=''>
+                                <button 
+                                    className='text-white bg-red-700 w-[150px] pt-1 pb-1 rounded-md'
+                                    onClick={haddleRemove}
+                                >REMOVE</button>
+                            </div>
+                            <div className='ml-10'>
+                                <button className='text-white bg-orange-500 w-[150px] pt-1 pb-1 rounded-md'>EDIT</button>
+                            </div>
+                            <div className='ml-10'>
+                                <button 
+                                    className='text-white bg-blue-500 w-[150px] pt-1 pb-1 rounded-md'
+                                    onClick={haddleNavigateCreate}
+                                >CREATE</button>
+                            </div>
+                        </div>
                         {
                             isPopup ? <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
                                 <div className='right-0  mr-10 absolute z-50 text-white text-[40px]'>
