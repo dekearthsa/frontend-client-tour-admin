@@ -204,7 +204,7 @@ const  ComponentAdminEditProductDetail = () => {
                                     
                         <div className="mt-12 on-set-detail-bg-product rounded-lg shadow-lg p-8 md:p-12 ">
                              {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
-                            <div className='text-center text-4xl font-bold text-gray-700 mb-[100px]'>Create new product</div>
+                            <div className='text-center text-4xl font-bold text-gray-700 mb-[100px]'>Update product</div>
 
                             <div className="mb-8">
                                 <div className='flex justify-between'>
@@ -411,7 +411,9 @@ const  ComponentAdminEditProductDetail = () => {
                                     </div>
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
-                                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'>Create</button>
+                                    <button 
+                                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
+                                    >Update</button>
                                 </div>
                             </div>
                         </div>
