@@ -39,7 +39,7 @@ const  ComponentAdminEditProductDetail = () => {
     const [isArrayActivites, setArrayActivites] = useState(content);
 
     
-    console.log("content => ", isArrayActivites)
+    // console.log("content => ", isArrayActivites)
 
     const haddlePopup = () => {
         if (!isPopup) {
@@ -67,7 +67,7 @@ const  ComponentAdminEditProductDetail = () => {
                 person: isPerson,
                 price: isPrice}
         setPricePerPerson([...isPricePerPerson, arrayPrice])
-        console.log("isPricePerPerson => ", isPricePerPerson)
+        // console.log("isPricePerPerson => ", isPricePerPerson)
     }
 
 

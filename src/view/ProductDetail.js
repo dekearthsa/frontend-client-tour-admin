@@ -4,12 +4,14 @@ import ComponentHomeNavbar from '../component/ComponentHome/ComponentHomeNavbar'
 import ComponentBottonBar from '../component/ComponentHome/ComponentBottonBar';
 import ComponentStarToprate from '../component/ComponentHome/ComponentStarToprate';
 import ComponentProductDetailPopup from "../component/ComponentShop/ComponentProductDetailPopup";
+// import ComponentWarningDeleteProduct from "../component/ComponentAdmin/ComponentWarningDeleteProduct";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const ProductDetail = () => {
     const [countImage, setCountImage] = useState();
     const [isPopup, setPopup] = useState(false);
+    const [isPopupDelete, setPopupDelete] = useState(false);
 
     const location = useLocation();
 
@@ -25,6 +27,38 @@ const ProductDetail = () => {
     const setContentJSON = JSON.parse(content);
     // console.log("ord => ",ord)
     const navigate = useNavigate();
+
+    const haddlePopupDelete = () => {
+        if(isPopupDelete){
+            setPopupDelete(false)
+        }else{
+            setPopupDelete(true)
+        }
+    }
+
+    const haddleClosePopupRemove = () => {
+        setPopupDelete(false);
+    }
+
+    const haddleRemoveProduct = async () => {
+        const payload = {
+            title: title
+        }
+
+        try{
+            const removeStatus = await axios.post("", payload);
+            if(removeStatus.status === 200){
+                alert("remove success!")
+                navigate("/shop")
+            }else{
+                alert(removeStatus.status)
+            }
+        }catch(err){
+            alert(err)
+        }
+        
+
+    }
 
     const haddleEditMode = () => {
         navigate("/product/edit_product",
@@ -49,24 +83,6 @@ const ProductDetail = () => {
             setPopup(false)
         }
     }
-
-    const haddleRemove = async () => {
-        const payload = {
-            title: title
-        }
-        const statusRemove = await axios.post("", payload);
-        try{
-            if(statusRemove.status === 200){
-                alert("remove success!")
-                window.location.reload();
-            }else{
-                alert(statusRemove.status)
-            }
-        }catch(err){
-            alert(err)
-        }
-    }
-
     
 
     const haddleNavigateCreate = () => {
@@ -93,24 +109,43 @@ const ProductDetail = () => {
                             <ComponentHomeNavbar />
                         </div>
                     </div>
-
+                    {
+                        isPopupDelete? 
+                        <div className=' '>
+                            <div className="shadow-lg  pop-delete w-[50%] h-[30vh] bg-gray-300 z-[999] fixed  rounded-md translate-x-[550px] translate-y-[150px]">
+                                <div className="title-delete text-center mt-10 text-[20px] font-bold">Warning you are try to delete this product</div>
+                                <div className="flex justify-around mt-[150px]">
+                                    <button  
+                                        className="font-bold bg-blue-500 text-white w-[150px] pt-2 pb-2 rounded-md"
+                                        onClick={haddleClosePopupRemove}
+                                    >NO</button>
+                                    <button 
+                                        className="font-bold bg-red-500 text-white w-[150px] pt-2 pb-2 rounded-md"
+                                        onClick={haddleRemoveProduct}
+                                    >REMOVE</button>
+                                </div>
+                            </div>
+                        </div>: ""
+                    }
+                    
+                    
                     <div className="container mx-auto px-4 py-12">
                         <div className='flex'>
                             <div className=''>
                                 <button 
-                                    className='text-white bg-red-700 w-[150px] pt-1 pb-1 rounded-md'
-                                    onClick={haddleRemove}
+                                    className='text-white font-bold bg-red-700 w-[150px] pt-1 pb-1 rounded-md'
+                                    onClick={haddlePopupDelete}
                                 >REMOVE</button>
                             </div>
                             <div className='ml-10'>
                                 <button 
-                                    className='text-white bg-orange-500 w-[150px] pt-1 pb-1 rounded-md'
+                                    className='text-white font-bold bg-orange-500 w-[150px] pt-1 pb-1 rounded-md'
                                     onClick={haddleEditMode}
                                 >EDIT</button>
                             </div>
                             <div className='ml-10'>
                                 <button 
-                                    className='text-white bg-blue-500 w-[150px] pt-1 pb-1 rounded-md'
+                                    className='text-white font-bold bg-blue-500 w-[150px] pt-1 pb-1 rounded-md'
                                     onClick={haddleNavigateCreate}
                                 >CREATE</button>
                             </div>
