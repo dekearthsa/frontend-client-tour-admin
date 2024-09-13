@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, content, images, rate }) => {
+const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, content, images, rate, ord }) => {
     return (
         <Link
             to={{
@@ -9,7 +9,7 @@ const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, con
                     intro
                 )}&price=${encodeURIComponent(pricePerPerson)}&img=${encodeURIComponent(images)}&content=${encodeURIComponent(
                     content
-                )}&rate=${encodeURIComponent(rate)}`,
+                )}&rate=${encodeURIComponent(rate)}&ord=${encodeURIComponent(ord)}`,
             }}
         >
             <div className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">

@@ -8,7 +8,7 @@ import ContactPage from './view/ContactPage';
 import ProductDetail from './view/ProductDetail';
 import AboutPage from './view/AboutPage';
 import ComponentAdminAddingProductDetail from './component/ComponentAdmin/ComponentAdminAddingProductDetail';
-
+import ComponentAdminEditProductDetail from './component/ComponentAdmin/ComponentAdminEditProductDetail'
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
           {/* <Route path="/about" element={<ContactPage/>}></Route> */}
           <Route path="/create_product" element={<ComponentAdminAddingProductDetail/>}></Route>
           <Route path="/product/:name" element={<ProductDetail/>}/>
+          <Route path="/product/edit_product" element={<ComponentAdminEditProductDetail/>}/>
         </Routes>
         {/* <ComponentBottonBar/> */}
       </BrowserRouter>

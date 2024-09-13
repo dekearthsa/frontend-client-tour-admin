@@ -12,18 +12,36 @@ const ProductDetail = () => {
     const [isPopup, setPopup] = useState(false);
 
     const location = useLocation();
+
     const searchParams = new URLSearchParams(location.search);
     const title = searchParams.get('title');
     const images = JSON.parse(searchParams.get("img"));
     const rate = searchParams.get("rate");
+    const ord = searchParams.get("ord");
     const intro = searchParams.get("intro");
     const setPricePrice = searchParams.get("price");
     const setPriceJSON = JSON.parse(setPricePrice);
     const content = searchParams.get("content");
     const setContentJSON = JSON.parse(content);
-
+    // console.log("ord => ",ord)
     const navigate = useNavigate();
-    
+
+    const haddleEditMode = () => {
+        navigate("/product/edit_product",
+            {
+                state:{
+                    title:title,
+                    images:images,
+                    rate:rate,
+                    ord:ord,
+                    intro:intro,
+                    setPricePrice:setPriceJSON,
+                    content:setContentJSON
+                }
+            }
+        )
+    }
+
     const haddlePopup = () => {
         if (!isPopup) {
             setPopup(true)
@@ -49,15 +67,14 @@ const ProductDetail = () => {
         }
     }
 
-    const haddleEditMode = () => {
-        
-    }
+    
 
     const haddleNavigateCreate = () => {
         navigate("/create_product")
     }
 
     useEffect(() => {
+        // console.log("ord => ",ord)
         setCountImage(images.length - 4);
     }, [])
 
@@ -86,7 +103,10 @@ const ProductDetail = () => {
                                 >REMOVE</button>
                             </div>
                             <div className='ml-10'>
-                                <button className='text-white bg-orange-500 w-[150px] pt-1 pb-1 rounded-md'>EDIT</button>
+                                <button 
+                                    className='text-white bg-orange-500 w-[150px] pt-1 pb-1 rounded-md'
+                                    onClick={haddleEditMode}
+                                >EDIT</button>
                             </div>
                             <div className='ml-10'>
                                 <button 

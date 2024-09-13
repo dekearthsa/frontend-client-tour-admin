@@ -1,27 +1,45 @@
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 
-const ComponentAdminAddingProductDetail = () => {
-    
-    const [isTitle, setTitle] = useState();
-    const [isRegion, setRegion] = useState();
-    const [isProvince, setProvince] = useState();
-    const [isOrd, setOrd] = useState();
-    const [isRate, setRate] = useState();
-    const [isIntro, setIntro] = useState();
+
+const  ComponentAdminEditProductDetail = () => {
+
+    const location = useLocation();
+    const { 
+        title, 
+        images,
+        rate,
+        ord,
+        intro,
+        setPricePrice,
+        content
+    } = location.state || {};
+
+    const [isTitle, setTitle] = useState(title);
+    // const [isRegion, setRegion] = useState();
+    // const [isProvince, setProvince] = useState();
+
+    const [isOrd, setOrd] = useState(ord);
+    const [isRate, setRate] = useState(rate);
+    const [isIntro, setIntro] = useState(intro);
+
     const [isPrice, setPrice] = useState();
     const [isPerson,setPerson] = useState();
-    const [isPricePerPerson, setPricePerPerson] = useState([]);
+    const [isPricePerPerson, setPricePerPerson] = useState(setPricePrice);
     const [isDayContent, setDayContent] = useState();
     const [isContent, setContent] = useState();
+
     const [isImageName, setImageName] = useState([]);
-    const [isArrayImages, setArrayImages] = useState([]);
+    const [isArrayImages, setArrayImages] = useState(images);
     const [isDemoShowImages, setDemoShowImages] = useState([]);
     const [isPopup, setPopup] = useState(false);
-    const [isArrayActivites, setArrayActivites] = useState([]);
+    const [isArrayActivites, setArrayActivites] = useState(content);
+
+    
+    console.log("content => ", isArrayActivites)
 
     const haddlePopup = () => {
         if (!isPopup) {
@@ -81,12 +99,11 @@ const ComponentAdminAddingProductDetail = () => {
         newArray.splice(idx, 1);
         setArrayActivites(newArray);
     }
-    // useEffect(() => {
 
-    // },[isPricePerPerson])
 
     return (
         <>
+        
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
                 // style={{
@@ -102,6 +119,7 @@ const ComponentAdminAddingProductDetail = () => {
                     </div>
                     
                     <div className="container mx-auto px-4 py-12 ">
+                        
                         {
                             isPopup ? <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
                                 <div className='right-0  mr-10 absolute z-50 text-white text-[40px]'>
@@ -197,8 +215,12 @@ const ComponentAdminAddingProductDetail = () => {
                                         <h1 className="text-[20px] lg:text-[35px]   text-gray-800 ml-4">
                                             <span className='font-bold'>Title: </span>
                                             <input
+                                                value={isTitle}
                                                 className='placeholder:text-[20px] placeholder:translate-y-[-5px] placeholder:translate-x-[15px] rounded-md  border-b-[1px] border-gray-500 '
                                                 placeholder='Product title..'
+                                                onChange={((evt) => {
+                                                    setTitle(evt.target.value)
+                                                })}
                                             />
                                         </h1>
                                     </div>
@@ -210,6 +232,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 type='number'
                                                 min='0'
                                                 max='5'
+                                                value={isRate}
                                                 onChange={((evt) => {
                                                     setRate(evt.target.value)
                                                 })}
@@ -222,6 +245,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 type='number'
                                                 min='0'
                                                 max='5'
+                                                value={isOrd}
                                                 onChange={((evt) => {
                                                     setOrd(evt.target.value)
                                                 })}
@@ -242,6 +266,7 @@ const ComponentAdminAddingProductDetail = () => {
                                 </h2>
                                 <p className="text-[25px] text-gray-600 leading-relaxed">
                                     <textarea 
+                                        value={isIntro}
                                         className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
                                         onChange={((evt) => {
                                             setIntro(evt.target.value)
@@ -265,6 +290,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className='border-b-[1px] border-gray-700'
                                                 placeholder='Number Person'
                                                 type="number"
+                                                value={isPerson}
                                                 onChange={((evt) => {
                                                     setPerson(evt.target.value)
                                                 })}
@@ -276,6 +302,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className='border-b-[1px] border-gray-700'
                                                 placeholder='Amount price'
                                                 type="number"
+                                                value={isPrice}
                                                 onChange={((evt) => {
                                                     setPrice(evt.target.value)
                                                 })}
@@ -352,7 +379,9 @@ const ComponentAdminAddingProductDetail = () => {
                                                 onClick={haddleAddingContent}
                                                 >Add activities</button>
                                         </div>
-                                        {isArrayActivites.map((el, idx) => (
+                                        {
+                                            
+                                        isArrayActivites.map((el, idx) => (
                                         <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
                                             <div className='flex justify-between'>
                                                 <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
@@ -365,7 +394,7 @@ const ComponentAdminAddingProductDetail = () => {
                                             </div>
                                             <div className='grid grid-cols-2'>
                                                 {
-                                                    el.imageBlobUrl.map((img, idx) => (
+                                                    el.image.map((img, idx) => (
                                                         <img 
                                                             key={idx}
                                                             className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' 
@@ -377,7 +406,8 @@ const ComponentAdminAddingProductDetail = () => {
                                             
                                             <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
                                         </div>
-                                    ))}
+                                        ))
+                                    }
                                     </div>
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
@@ -393,4 +423,4 @@ const ComponentAdminAddingProductDetail = () => {
     )
 }
 
-export default ComponentAdminAddingProductDetail
+export default ComponentAdminEditProductDetail

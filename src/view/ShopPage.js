@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ComponentCardShop from '../component/ComponentShop/ComponentCardShop';
@@ -297,6 +296,7 @@ const ShopPage = () => {
     const haddleFetchProduct = async (isLocationStateProvince) => {
         // setLoadingProduct(true);
         setProduct(demoProductData);
+        // console.log(demoProductData, isSelectRegion, isProvince, isLocationStateProvince)
         haddleFilterProduct(isSelectRegion, isLocationStateProvince || isProvince, demoProductData);
         // setLoadingProduct(false);
     };
@@ -390,14 +390,11 @@ const ShopPage = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                 <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
                             </svg>
-
                         </button>
                     </div>
 
                     <main className="flex flex-col md:flex-row mt-10 px-6 md:px-20 space-y-10 md:space-y-0">
                         <div className="relative z-10">
-
-
                             <div
                                 className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
                                     } transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
@@ -469,8 +466,8 @@ const ShopPage = () => {
                     
                 </div>
                 <div className='mt-[70px] opacity-80'>
-                        <ComponentBottonBar />
-                    </div>
+                    <ComponentBottonBar />
+                </div>
             </div>
         );
     } else {
