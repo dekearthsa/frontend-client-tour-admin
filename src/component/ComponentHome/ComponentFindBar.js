@@ -118,12 +118,24 @@ const ComponentFindBar = () => {
 
     const [isRegion, setRegion] = useState([]);
     const [isProvince, setProvince] = useState("");
+    const [isPopup, setPopup] = useState(false);
     const navigate = useNavigate();
 
 
     // const haddleBtnSubmit = () => {
     //     console.log(region);
     // }
+    const haddlePopupNewProvince = () => {
+        if(isPopup){
+            setPopup(false)
+        }else{
+            setPopup(true)
+        }
+    }
+
+    const haddleAddingNewProvince = () => {
+        
+    }
 
     const handleButtonClick = () => {
         // const listRegion = await axios.get("")
@@ -148,6 +160,8 @@ const ComponentFindBar = () => {
         }
         
     };
+
+    
 
     const funcFetchListRegion = async () => {
         // axios here fetch data 
@@ -179,7 +193,25 @@ const ComponentFindBar = () => {
         funcInit();
     },[]);
     return (
+        
         <div className="p-4 md:mr-[20%] mt-[8%]">
+            {
+                isPopup?
+                <div className='fixed top-0 left-0 w-[50%] h-[50vh] z-[999] bg-white rounded-md translate-x-[500px] translate-y-[200px] shadow-lg'>
+                    <div className='flex justify-end mr-5 mt-4'>
+                        <button
+                            onClick={haddlePopupNewProvince}
+                        >X</button>
+                    </div>
+                    <div className='title-c text-center mt-5 mb-5 text-[20px] font-bold'>Adding province</div>
+                    <div className='border-[1px] border-gray-600 w-[98%] m-auto h-[400px]'>
+
+                    </div>
+                    <div className='flex justify-center mt-7'>
+                        <button className='bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
+                    </div>
+                </div>:""
+            }
             <div className="text-center lg:translate-y-[-50px] md:text-right">
                 <h1 className="font-bold text-white text-[24px] lg:text-4xl leading-tight  opacity-0 translate-y-10 fade-ins duration-1000 ease-out transform transition-all">
                     Explore Thailand With Us!
@@ -201,6 +233,12 @@ const ComponentFindBar = () => {
                         className="h-12 w-[100px] rounded-r-full bg-orange-500 hover:bg-orange-600 text-white font-bold transition-colors duration-300"
                     >
                         Find
+                    </button>
+                    <button
+                        className='w-[50px] h-[50px] rounded-full bg-gray-600 ml-5 font-bold text-white shadow-lg'
+                        onClick={haddlePopupNewProvince}
+                    >
+                        ADD
                     </button>
                 </div>
                 <p className="mt-6 text-white font-bold fade-ins opacity-0 translate-y-10 duration-1000 ease-out transform transition-all">

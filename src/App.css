@@ -11,9 +11,83 @@
   .set-con-page{
     border: 1px solid red;
   }
+
+
+  .set-img-text-01{
+    font-size: 250px;
+    text-transform: uppercase;
+    transform: translateY(-60px);
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083652/Bangkok-Old-Town-History.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-02{
+    font-size: 250px;
+    text-transform: uppercase;
+    transform: translateY(-60px);
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083703/bangkok-old-town-walking-tour.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-03{
+    font-size: 250px;
+    text-transform: uppercase;
+    transform: translateY(-60px);
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083714/guide-bkk-old-town.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-04{
+    font-size: 250px;
+    text-transform: uppercase;
+    transform: translateY(-60px);
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://media.architecturaldigest.com/photos/59ee400e61c6482fab68ec67/master/w_2580%2Cc_limit/World's%2520Scariest-Looking%2520Structures%252014.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-grid-about-r{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .set-grid-about-l{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+
 }
 
 @media only screen and (max-width: 800px) {
+
+  .set-c-about{
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 95%;
+  }
+
+  .title-c-about{
+    text-align: center;
+    font-size: 40px;
+
+  }
+
   .set-counting{
     margin: auto;
     border: 1px solid red;
@@ -23,6 +97,54 @@
   .set-con-page{
     border: 1px solid red;
   }
+
+  .set-img-text-01{
+    font-size: 140px;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083652/Bangkok-Old-Town-History.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-02{
+    font-size: 140px;
+    text-transform: uppercase;
+    
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083703/bangkok-old-town-walking-tour.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-03{
+    font-size: 140px;
+    text-transform: uppercase;
+    
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083714/guide-bkk-old-town.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
+  .set-img-text-04{
+    font-size: 140px;
+    text-transform: uppercase;
+    
+    font-weight: 900;
+    letter-spacing: 0px;
+    background: url("https://media.architecturaldigest.com/photos/59ee400e61c6482fab68ec67/master/w_2580%2Cc_limit/World's%2520Scariest-Looking%2520Structures%252014.jpg") 50% 50%;
+    background-size: cover;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+
 }
 
 body{
@@ -131,29 +253,18 @@ background: linear-gradient(318deg, rgba(250,250,250,1) 60%, rgba(194,208,212,1)
   animation: slide-in-right 0.5s ease-out forwards;
 }
 
-.input-contact {
-  background: #fff;
-  color: #525865;
-  border-radius: 4px;
-  border: 1px solid #d1d1d1;
-  box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.2);
-  font-family: inherit;
-  font-size: 1em;
-  line-height: 1.45;
-  outline: none;
-  padding: 0.6em 1.45em 0.7em;
-  -webkit-transition: .18s ease-out;
-  -moz-transition: .18s ease-out;
-  -o-transition: .18s ease-out;
-  transition: .18s ease-out;
+
+.suse-font-bold {
+  font-family: "SUSE", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
 }
 
-.input-contact:hover {
-  box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
+.suse-font {
+  font-family: "SUSE", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-.input-contact:focus {
-  color: #4b515d;
-  border: 1px solid #B8B6B6;
-  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
-}
+
