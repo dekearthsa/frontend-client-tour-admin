@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,11 +10,11 @@ const ComponentFindBar = () => {
             "reigon": "Northern",
             "data": [
                 "All",
-                "Chiang_Mai",
-                "Chiang_Rai",
+                "Chiang Mai",
+                "Chiang Rai",
                 "Lampang",
                 "Lamphun",
-                "Mae_Hong_Son",
+                "Mae Hong Son",
                 "Nan",
                 "Phayao",
                 "Phrae",
@@ -25,25 +25,25 @@ const ComponentFindBar = () => {
             "reigon": "Northeastern",
             "data": [
                 "All",
-                "Amnat_Charoen",
-                "Bueng_Kan",
+                "Amnat Charoen",
+                "Bueng Kan",
                 "Buriram",
                 "Chaiyaphum",
                 "Kalasin",
-                "Khon_Kaen",
+                "Khon Kaen",
                 "Loei",
-                "Maha_Sarakham",
+                "Maha Sarakham",
                 "Mukdahan",
-                "Nakhon_Phanom",
-                "Nakhon_Ratchasima",
-                "Nong_Bua_Lamphu",
-                "Nong_Khai",
-                "Roi_Et",
-                "Sakon_Nakhon",
-                "Si_Sa_Ket",
+                "Nakhon Phanom",
+                "Nakhon Ratchasima",
+                "Nong Bua Lamphu",
+                "Nong Khai",
+                "Roi Et",
+                "Sakon Nakhon",
+                "Si Sa Ket",
                 "Surin",
-                "Ubon_Ratchathani",
-                "Udon_Thani",
+                "Ubon Ratchathani",
+                "Udon Thani",
                 "Yasothon"
             ],
         },
@@ -51,23 +51,23 @@ const ComponentFindBar = () => {
             "reigon": "Central",
             "data": [
                 "All",
-                "Ang_Thong",
+                "Ang Thong",
                 "Ayutthaya",
                 "Bangkok",
-                "Chai_Nat",
+                "Chai Nat",
                 "Lopburi",
-                "Nakhon_Nayok",
-                "Nakhon_Pathom",
+                "Nakhon Nayok",
+                "Nakhon Pathom",
                 "Nonthaburi",
-                "Pathum_Thani",
+                "Pathum Thani",
                 "Phetchabun",
-                "Phra_Nakhon_Si_Ayutthaya",
+                "Phra Nakhon Si Ayutthaya",
                 "Phichit",
                 "Phitsanulok",
                 "Saraburi",
-                "Sing_Buri",
-                "Suphan_Buri",
-                "Uthai_Thani"
+                "Sing Buri",
+                "Suphan Buri",
+                "Uthai Thani"
             ],
         },
         {
@@ -77,9 +77,9 @@ const ComponentFindBar = () => {
                 "Chachoengsao",
                 "Chanthaburi",
                 "Chonburi",
-                "Prachin_Buri",
+                "Prachin Buri",
                 "Rayong",
-                "Sa_Kaeo",
+                "Sa Kaeo",
                 "Trat"
             ],
         },
@@ -89,7 +89,7 @@ const ComponentFindBar = () => {
                 "All",
                 "Kanchanaburi",
                 "Phetchaburi",
-                "Prachuap_Khiri_Khan",
+                "Prachuap Khiri Khan",
                 "Ratchaburi",
                 "Tak"
             ],
@@ -100,52 +100,60 @@ const ComponentFindBar = () => {
                 "All",
                 "Chumphon",
                 "Krabi",
-                "Nakhon_Si_Thammarat",
+                "Nakhon Si Thammarat",
                 "Narathiwat",
                 "Pattani",
-                "Phang_Nga",
+                "Phang Nga",
                 "Phatthalung",
                 "Phuket",
                 "Ranong",
                 "Satun",
                 "Songkhla",
-                "Surat_Thani",
+                "Surat Thani",
                 "Trang",
                 "Yala"
             ]
         },
     ];
 
+    const [isMangeTitleRegion, setMangeTitleRegion] = useState("Adding province");
+    const [isListRegion, setListRegion] = useState([]);
     const [isRegion, setRegion] = useState([]);
     const [isProvince, setProvince] = useState("");
     const [isPopup, setPopup] = useState(false);
+    const [isAddingRegion, setAddingRegion] = useState();
+    const [isAddingProvince, setAddingProvince] = useState();
     const navigate = useNavigate();
 
 
-    // const haddleBtnSubmit = () => {
-    //     console.log(region);
-    // }
     const haddlePopupNewProvince = () => {
-        if(isPopup){
+        if (isPopup) {
             setPopup(false)
-        }else{
+        } else {
             setPopup(true)
         }
     }
 
-    const haddleAddingNewProvince = () => {
-        
+
+    const haddleChangeMenuTitleAdding = (menu) => {
+        if (isMangeTitleRegion === "Adding province") {
+            setMangeTitleRegion(menu)
+        } else if (isMangeTitleRegion === "Update province") {
+            setMangeTitleRegion(menu)
+        } else if (isMangeTitleRegion === "Remove province") {
+            setMangeTitleRegion(menu)
+        }
     }
 
     const handleButtonClick = () => {
         // const listRegion = await axios.get("")
-        
-        if (isProvince !== "none"){
+
+        if (isProvince !== "none") {
             const listRegion = demoDataListRegion;
             let isRegion;
-            for(let i = 0; i < listRegion.length; i++){
-                for(let j = 0; j < listRegion[i].data.length; j++){
-                    if(listRegion[i].data[j] === isProvince){
+            for (let i = 0; i < listRegion.length; i++) {
+                for (let j = 0; j < listRegion[i].data.length; j++) {
+                    if (listRegion[i].data[j] === isProvince) {
                         isRegion = listRegion[i].reigon
                     }
                 }
@@ -158,29 +166,30 @@ const ComponentFindBar = () => {
                 }
             });
         }
-        
+
     };
 
-    
+
 
     const funcFetchListRegion = async () => {
-        // axios here fetch data 
-        // setRegion(demoDataListRegion);
         let listProvince = [];
-        for(let i = 0; i < demoDataListRegion.length; i++ ){
-            for(let j = 0; j < demoDataListRegion[i].data.length; j++){
-                if(demoDataListRegion[i].data[j] !== "All" ){
+        for (let i = 0; i < demoDataListRegion.length; i++) {
+            for (let j = 0; j < demoDataListRegion[i].data.length; j++) {
+                if (demoDataListRegion[i].data[j] !== "All") {
                     listProvince.push(demoDataListRegion[i].data[j])
                 }
             }
         }
+        setListRegion(demoDataListRegion);
         setRegion(listProvince);
     }
 
+
     const funcInit = async () => {
-        
         await funcFetchListRegion();
+
     }
+
 
     useEffect(() => {
         const fadeElements = document.querySelectorAll('.fade-ins');
@@ -191,36 +200,160 @@ const ComponentFindBar = () => {
             }, index * 200); // Faster cascading effect for a luxurious feel
         });
         funcInit();
-    },[]);
+    }, []);
     return (
-        
+
         <div className="p-4 md:mr-[20%] mt-[8%]">
             {
-                isPopup?
-                <div className='fixed top-0 left-0 w-[50%] h-[50vh] z-[999] bg-white rounded-md translate-x-[500px] translate-y-[200px] shadow-lg'>
-                    <div className='flex justify-end mr-5 mt-4'>
-                        <button
-                            onClick={haddlePopupNewProvince}
-                        >X</button>
-                    </div>
-                    <div className='title-c text-center mt-5 mb-5 text-[20px] font-bold'>Adding province</div>
-                    <div className='border-[1px] border-gray-600 w-[98%] m-auto h-[400px]'>
+                isPopup ?
+                    <div className='fixed top-0 left-0 w-[50%] h-[65vh] z-[999] bg-white rounded-md translate-x-[500px] translate-y-[200px] shadow-lg'>
+                        <div className='flex justify-end mr-5 mt-4'>
+                            <button
+                                onClick={haddlePopupNewProvince}
+                            >X</button>
+                        </div>
+                        <div className='title-c text-center mt-5 mb-5 text-[20px] font-bold'>{isMangeTitleRegion}</div>
+                        <div className='border-[1px] border-gray-600 w-[98%] m-auto h-[660px] rounded-lg'>
+                            <div className='h-[40px] border-b-[1px] border-black grid grid-cols-3'>
+                                <div className='border-r-[1px] border-black text-center'>
+                                    <button
+                                        className='text-center  rounded-tl-lg bg-blue-400 text-white font-bold w-[100%] h-[100%]'
+                                        onClick={() => {
+                                            haddleChangeMenuTitleAdding("Adding province")
+                                        }}
+                                    >Adding</button>
+                                </div>
+                                <div className='border-r-[1px] border-black'>
+                                    <button
+                                        className='text-center  w-[100%] h-[100%] bg-yellow-400 text-white font-bold'
+                                        onClick={() => {
+                                            haddleChangeMenuTitleAdding("Update province")
+                                        }}
+                                    >Update</button>
+                                </div>
+                                <div>
+                                    <button
+                                        className='text-center  w-[100%] h-[100%] rounded-tr-lg bg-red-400 text-white font-bold'
+                                        onClick={() => {
+                                            haddleChangeMenuTitleAdding("Remove province")
+                                        }}
+                                    >Remove</button>
+                                </div>
+                            </div>
+                            <div className='mt-[50px] text-center'>
+                                {
+                                    isMangeTitleRegion === "Adding province" ?
+                                        <div className='grid grid-cols-2'>
+                                            <label className='text-[20px] font-bold'>Region name</label>
+                                            <input
+                                                className='ml-5 border-[1px] border-black w-[250px] h-[50px] rounded-lg'
+                                                onChange={(evt) => {
+                                                    setAddingRegion(evt.target.value)
+                                                }}
+                                            />
+                                        </div>
+                                        : ""
+                                }
+                                {
+                                    isMangeTitleRegion === "Adding province" && (isAddingRegion) ?
 
-                    </div>
-                    <div className='flex justify-center mt-7'>
-                        <button className='bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
-                    </div>
-                </div>:""
+                                        <div className='mt-5 grid grid-cols-2'>
+                                            <label className='text-[20px] font-bold'>Province name</label>
+                                            <input
+                                                className='ml-5 border-[1px] border-black  w-[250px] h-[50px] rounded-lg'
+                                                onChange={(evt) => {
+                                                    setAddingProvince(evt.target.value)
+                                                }}
+                                            />
+                                        </div>
+                                        : ""
+                                }
+                                {
+                                    isMangeTitleRegion === "Adding province" && (isAddingProvince) ?
+                                        <div className='flex justify-center mt-[100px]'>
+                                            <  button className='bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
+                                        </div>
+                                        : ""
+                                }
+
+                                {
+                                    isMangeTitleRegion === "Update province" ?
+                                        <div>
+                                            {
+                                                isListRegion.map((el, idx) => {
+                                                    return (
+                                                        <div className='set-grid-find-bar mt-2'>
+                                                            <div>
+                                                                <label className='text-[20px] font-bold'>Region</label>
+                                                                <input
+                                                                    className='border-[1px] border-black h-[40px] ml-3'
+                                                                    value={el.reigon}
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <label className='text-[20px] font-bold'>Province</label>
+                                                                <input
+                                                                    className='border-[1px] border-black w-[80%] h-[40px] ml-3'
+                                                                    value={el.data}
+                                                                />
+                                                            </div>
+
+                                                        </div>
+                                                    )
+
+                                                })
+                                            }
+                                            <div className='flex justify-center'>
+                                                < button className='mt-8 bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
+                                            </div>
+                                        </div>
+                                        : ""
+                                }
+
+                                {
+                                    isMangeTitleRegion === "Remove province" ?
+                                        <div className='overflow-y-auto h-[500px] w-[99%]'>
+                                            <table className='table-container'>
+                                                <thead >
+                                                    <tr>
+                                                        <th>Region</th>
+                                                        <th>Province</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                            {
+                                                isListRegion.map((el, idx) => {
+                                                    return (
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>{el.reigon}</td>
+                                                                <td>{el.data}</td>
+                                                                <td>
+                                                                    <button className='bg-red-400 text-white p-2 rounded-lg'>Remove</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    )
+
+                                                })
+                                            }
+                                            </table>
+                                        </div>
+                                        : ""
+                                }
+                            </div>
+                        </div>
+                    </div> : ""
             }
             <div className="text-center lg:translate-y-[-50px] md:text-right">
                 <h1 className="font-bold text-white text-[24px] lg:text-4xl leading-tight  opacity-0 translate-y-10 fade-ins duration-1000 ease-out transform transition-all">
                     Explore Thailand With Us!
                 </h1>
                 <div className="flex justify-center md:justify-end mt-6 fade-ins opacity-0 translate-y-10 duration-1000 ease-out transform transition-all">
-                    <select 
-                        onChange={(e) => setProvince(e.target.value)} 
-                        name="region" 
-                        id="region" 
+                    <select
+                        onChange={(e) => setProvince(e.target.value)}
+                        name="region"
+                        id="region"
                         className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
                     >
                         <option value="none">Select Province</option>
@@ -228,8 +361,8 @@ const ComponentFindBar = () => {
                             <option key={idx} value={el}>{el}</option>
                         ))}
                     </select>
-                    <button 
-                        onClick={handleButtonClick} 
+                    <button
+                        onClick={handleButtonClick}
                         className="h-12 w-[100px] rounded-r-full bg-orange-500 hover:bg-orange-600 text-white font-bold transition-colors duration-300"
                     >
                         Find

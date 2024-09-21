@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<HomePage/>}/>
           <Route path="/shop" element={<ShopPage/>}/>
           <Route path="/contact" element={<AboutPage/>}/>
-          {/* <Route path="/about" element={<ContactPage/>}></Route> */}
+          <Route path="/about" element={<ContactPage/>}></Route>
           <Route path="/create_product" element={<ComponentAdminAddingProductDetail/>}></Route>
           <Route path="/product/:name" element={<ProductDetail/>}/>
           <Route path="/product/edit_product" element={<ComponentAdminEditProductDetail/>}/>

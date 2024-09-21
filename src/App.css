@@ -88,6 +88,10 @@
 
   }
 
+  .center-about-p{
+    text-align: center;
+  }
+
   .set-counting{
     margin: auto;
     border: 1px solid red;
@@ -112,7 +116,6 @@
   .set-img-text-02{
     font-size: 140px;
     text-transform: uppercase;
-    
     font-weight: 900;
     letter-spacing: 0px;
     background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083703/bangkok-old-town-walking-tour.jpg") 50% 50%;
@@ -124,7 +127,6 @@
   .set-img-text-03{
     font-size: 140px;
     text-transform: uppercase;
-    
     font-weight: 900;
     letter-spacing: 0px;
     background: url("https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/67/2023/08/29083714/guide-bkk-old-town.jpg") 50% 50%;
@@ -136,7 +138,6 @@
   .set-img-text-04{
     font-size: 140px;
     text-transform: uppercase;
-    
     font-weight: 900;
     letter-spacing: 0px;
     background: url("https://media.architecturaldigest.com/photos/59ee400e61c6482fab68ec67/master/w_2580%2Cc_limit/World's%2520Scariest-Looking%2520Structures%252014.jpg") 50% 50%;
@@ -268,3 +269,83 @@ background: linear-gradient(318deg, rgba(250,250,250,1) 60%, rgba(194,208,212,1)
 }
 
 
+
+.set-grid-find-bar{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.set-grid-find-bar-remove{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+/* Table container styling */
+.table-container {
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+/* Table Header */
+thead {
+  background-color: #2f3640;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+thead th {
+  padding: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 2px solid #dcdde1;
+}
+
+/* Table Body */
+tbody {
+  background-color: #ffffff;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dcdde1;
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+tbody td {
+  padding: 15px;
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Zebra stripe effect */
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+ 
+
+/* Adding a gradient background for table header */
+thead {
+  background: linear-gradient(135deg, #636e72, #2f3640);
+}
+
+ 
