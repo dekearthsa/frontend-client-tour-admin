@@ -11,7 +11,6 @@ const AboutPage = () => {
     const [isPhoneScreen, setIsphoneScreen] = useState();
     const [items, setItems] = useState([]);
 
-
     const demoContactData = {
         titleContact: "Get in Touch",
         introContact: "We would love to hear from you! Whether you have a question about features, trials, pricing, need a demo, or anything else, our team is ready to answer all your questions.",
@@ -169,7 +168,6 @@ const AboutPage = () => {
                             {/* CoverFlowCarousel Component */}
                             
                             <div className=" mt-24 md:mt-32 lg:pt-[130px]">
-                               
                                 {/* <CoverFlowCarousel items={isContact.items} /> */}
                                 {
                                     !isPhoneScreen ? <div className="relative w-full max-w-5xl mx-auto">

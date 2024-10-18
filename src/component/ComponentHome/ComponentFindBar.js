@@ -147,7 +147,6 @@ const ComponentFindBar = () => {
 
     const handleButtonClick = () => {
         // const listRegion = await axios.get("")
-
         if (isProvince !== "none") {
             const listRegion = demoDataListRegion;
             let isRegion;
@@ -184,12 +183,9 @@ const ComponentFindBar = () => {
         setRegion(listProvince);
     }
 
-
     const funcInit = async () => {
         await funcFetchListRegion();
-
     }
-
 
     useEffect(() => {
         const fadeElements = document.querySelectorAll('.fade-ins');
@@ -288,6 +284,9 @@ const ComponentFindBar = () => {
                                                                 <input
                                                                     className='border-[1px] border-black h-[40px] ml-3'
                                                                     value={el.reigon}
+                                                                    onChange={(evt) => {
+                                                                        setListRegion()
+                                                                    }}
                                                                 />
                                                             </div>
                                                             <div>
@@ -295,6 +294,9 @@ const ComponentFindBar = () => {
                                                                 <input
                                                                     className='border-[1px] border-black w-[80%] h-[40px] ml-3'
                                                                     value={el.data}
+                                                                    onChange={() => {
+                                                                        
+                                                                    }}
                                                                 />
                                                             </div>
 
