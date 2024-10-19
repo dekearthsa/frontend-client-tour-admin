@@ -4,25 +4,15 @@ import ComponentBottonBar from '../component/ComponentHome/ComponentBottonBar';
 
 const ContactPage = () => {
 
-    // const demoPic = [
-    //     "https://www.digi.com/images/blog/edge_compute_aws_greengrass-io",
-    //     "https://www.digi.com/images/blog/edge_compute_aws_greengrass-io",
-    //     "https://www.digi.com/images/blog/edge_compute_aws_greengrass-io",
-    //     "https://www.digi.com/images/blog/edge_compute_aws_greengrass-io",
-    //     "https://www.digi.com/images/blog/edge_compute_aws_greengrass-io",
-    // ]
-
     const demoContent = [
         {
             contentType: "history",
             imgUrl: "https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg",
-            title: "Demo title",
             content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         },
         {
             contentType: "vision",
             imgUrl: "https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg",
-            title: "Demo title",
             content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         }
     ]
@@ -109,15 +99,14 @@ const ContactPage = () => {
 
     const [isStorgeContent, setStorageContent] = useState({
         imgUrl: "",
-        title: "",
         content: "",
     });
 
     const [isStorageVision, setStorageVision] = useState({
         imgUrl: "",
-        title: "",
         content: "",
     });
+
 
     
 
@@ -190,16 +179,6 @@ const ContactPage = () => {
     };
 
 
-    // const funcCalRage = () => {
-    //     setCountImg(demoPic.length - 2)
-    // }
-
-    const onChangeHistoryTitle = (evt) => {
-        setStorageContent({
-            ...isStorgeContent, 
-            title: evt.target.value,
-        });
-    }
     
     const onChangeHistoryContent = (evt) => {
         setStorageContent({
@@ -208,12 +187,6 @@ const ContactPage = () => {
         });
     }
 
-    const onChangeVisionTitle = (evt) => {
-        setStorageVision({
-            ...isStorageVision,
-            title: evt.target.value
-        })
-    }
 
     const onChangeVisionContent = (evt) => {
         setStorageVision({
@@ -373,13 +346,13 @@ const ContactPage = () => {
                         <div className='mt-[40px] text-[18px] center-about-p '>
                             <div className='mt-[40px] md:ml-10 text-[16px] sm:text-[18px] text-center md:text-left'>
                                 <div className='font-semibold'>
-                                    <input
+                                    {/* <input
                                         className='rounded-md'
                                         value={isStorgeContent.title}
                                         onChange={(evt) => {
                                             onChangeHistoryTitle(evt)
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <textarea
                                     className='mt-2 w-[100%] h-[200px] rounded-md'
@@ -390,7 +363,12 @@ const ContactPage = () => {
                                 >
                                 </textarea>
                             </div>
-                            <button className='ml-10 mt-3 mb-5 bg-gray-600 p-2 text-white rounded-lg'>Update</button>
+                            <button 
+                                className='ml-10 mt-3 mb-5 bg-gray-600 p-2 text-white rounded-lg'
+                                onClick={() => {
+                                    haddleUpdateHistroy();
+                                }}
+                                >Update</button>
                         </div>  
                         <div
                             className='text-center set-img-text-01 duration-500 md:hover:text-[270px] mt-[80px] md:hover:translate-y-[-70px]'
@@ -420,15 +398,15 @@ const ContactPage = () => {
                             
                         </div>
                         <div className='mt-[40px] md:ml-10 text-[16px] sm:text-[18px] text-center md:text-left'>
-                            <input
+                            {/* <input
                                 className='font-semibold rounded-md'
                                 value={isStorageVision.title}
                                 onChange={(evt) => {
                                     onChangeVisionTitle(evt)
                                 }}
-                            />
+                            /> */}
                             <textarea
-                                className='mt-2 w-[200%] h-[200px] rounded-md'
+                                className='mt-2 w-[750px] h-[200px] rounded-md'
                                 value={isStorageVision.content}
                                 onChange={(evt) => {
                                     onChangeVisionContent(evt)
@@ -439,7 +417,12 @@ const ContactPage = () => {
                         </div>
                         
                     </div>
-                    <button className='translate-y-[-40px] bg-gray-600 p-2 text-white rounded-lg'>Update</button>
+                    <button 
+                        className='translate-y-[-40px] bg-gray-600 p-2 text-white rounded-lg'
+                        onClick={() => {
+                            haddleUpdateVison();
+                        }}
+                    >Update</button>
                 </div>
                 <div className='set-c-about md:w-[50%] mt-10 border-b-[1px] border-gray-500 md:h-[350px] m-auto'>
                     <div className='title-c-about suse-font-bold text-[30px]  text-gray-600'>Our services</div>
@@ -485,7 +468,12 @@ const ContactPage = () => {
                         
                     </div>
                     <div className='mt-[70px]'>
-                        <button className='translate-y-[-40px] bg-gray-600 p-2 text-white rounded-lg'>Update</button>
+                        <button 
+                            className='translate-y-[-40px] bg-gray-600 p-2 text-white rounded-lg'
+                            onClick={() => {
+                                haddleUpdateService();
+                            }}
+                            >Update</button>
                     </div>
                 </div>
                 <div className='set-c-about md:w-[50%] pb-10  mt-10  m-auto'>
