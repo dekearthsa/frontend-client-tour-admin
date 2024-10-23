@@ -123,6 +123,9 @@ const ComponentFindBar = () => {
     const [isPopup, setPopup] = useState(false);
     const [isAddingRegion, setAddingRegion] = useState();
     const [isAddingProvince, setAddingProvince] = useState();
+
+
+
     const navigate = useNavigate();
 
 
@@ -134,8 +137,28 @@ const ComponentFindBar = () => {
         }
     }
 
+    const haddleCreateRegionAndProvince = async () => {
+
+        const payload = {
+            region: isAddingRegion,
+            province: isAddingProvince
+        }
+
+        try{
+            const updateStatus = await axios.post("http://localhost:8888/create/province",payload)
+            if(updateStatus.status === 200){
+                alert("Create province success!")
+            }else{
+                alert(`Error ${updateStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
+    }
+
 
     const haddleChangeMenuTitleAdding = (menu) => {
+        
         if (isMangeTitleRegion === "Adding province") {
             setMangeTitleRegion(menu)
         } else if (isMangeTitleRegion === "Update province") {
@@ -267,7 +290,12 @@ const ComponentFindBar = () => {
                                 {
                                     isMangeTitleRegion === "Adding province" && (isAddingProvince) ?
                                         <div className='flex justify-center mt-[100px]'>
-                                            <  button className='bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
+                                            <  button 
+                                                className='bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'
+                                                onClick={()=> {
+                                                    haddleCreateRegionAndProvince()
+                                                }}
+                                            >ADD</button>
                                         </div>
                                         : ""
                                 }
@@ -306,7 +334,12 @@ const ComponentFindBar = () => {
                                                 })
                                             }
                                             <div className='flex justify-center'>
-                                                < button className='mt-8 bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'>UPDATE</button>
+                                                < button 
+                                                    className='mt-8 bg-gray-500 text-white w-[100px] pt-1 pb-1 rounded-md font-bold shadow-lg'
+                                                    onClick={() => {
+
+                                                    }}
+                                                >UPDATE</button>
                                             </div>
                                         </div>
                                         : ""
@@ -369,12 +402,12 @@ const ComponentFindBar = () => {
                     >
                         Find
                     </button>
-                    <button
+                    {/* <button
                         className='w-[50px] h-[50px] rounded-full bg-gray-600 ml-5 font-bold text-white shadow-lg'
                         onClick={haddlePopupNewProvince}
                     >
                         ADD
-                    </button>
+                    </button> */}
                 </div>
                 <p className="mt-6 text-white font-bold fade-ins opacity-0 translate-y-10 duration-1000 ease-out transform transition-all">
                     Discover Thailand's hotspots and hidden gems with local experts.
