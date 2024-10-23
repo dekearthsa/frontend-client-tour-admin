@@ -78,6 +78,7 @@ const ContactPage = () => {
         }
     ]
 
+    const [isPopupDeleteStaff,setPopupDeleteStaff] = useState(false);
     const [isServices, setServices] = useState([]);
     const [isStaff, setStaff] = useState([]);
     const [isStaffImage, setStaffImage] = useState("https://via.placeholder.com/300")
@@ -87,6 +88,7 @@ const ContactPage = () => {
     const [staffContact, setStaffContact] = useState("")
     const [staffHover, setStaffHover] = useState("");
     const [isPopupAddStaff, setPopupAddStaff]= useState(false);
+    const [isPopupDeleteName, setPopupDeleteName] = useState("");
     const [isStorgeContent, setStorageContent] = useState({
         imgUrl: "",
         content: "",
@@ -184,6 +186,33 @@ const ContactPage = () => {
         }
     }
 
+    const closePopUpDeleteStaff = () => {
+        setPopupDeleteStaff(false);
+    }
+
+    const popupDeleteStaff = async (name) => {
+        setPopupDeleteStaff(true);
+        setPopupDeleteName(name)
+    }
+
+    const haddleDeleteStaff = async (name) => {
+        const payload = {
+            staffName: name
+        }
+
+        try{
+            const deleteStaffStatus = await axios.post("http://localhost/delete/staff", payload);
+            if(deleteStaffStatus.status === 200){
+                alert("delete staff success!")
+                window.location.reload();
+            }else{
+                alert(`Error code: ${deleteStaffStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
+    }
+
 
 
     const onChangeService = (evt, idx, key) => {
@@ -277,6 +306,49 @@ const ContactPage = () => {
 
     return (
         <>
+            {
+                isPopupDeleteStaff?
+                <>
+                    <div
+                        className='fixed w-[800px] h-[400px] border-[1px] border-black rounded-lg bg-white top-[15%] left-[33%] z-[999]'
+                    >
+                        <div>
+                            <div className='flex justify-end'>
+                                <button className='mr-3 mt-3 font-bold bg-red-400 rounded-full w-8 h-8 text-white text-[20px]'
+                                    onClick={() => {
+                                        closePopUpDeleteStaff();
+                                    }}
+                                >X</button>
+                            </div>
+                            <div className='text-center'>
+                                <h3 className='font-bold text-[25px]'>Do you want to delete staff</h3>
+                            </div>
+                        </div>
+                        <div className='text-center translate-y-[80px] font-bold text-[20px]'>
+                            <h1>Staff name: {isPopupDeleteName}</h1>
+                        </div>
+                        <div className='mt-[150px] flex justify-around'>
+                            <div className='text-[25px]'>
+                                <button 
+                                    className='font-bold bg-red-400 w-[150px] text-white rounded-lg shadow-md'
+                                    onClick={() => {
+                                        closePopUpDeleteStaff();
+                                    }}
+                                    >NO</button>
+                            </div>
+                            <div  className='text-[25px]'>
+                                <button 
+                                    className='font-bold bg-blue-500 w-[150px] text-white rounded-lg shadow-md'
+                                    onClick={() => {
+                                        haddleDeleteStaff(isPopupDeleteName)
+                                    }}
+                                    >YES</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+                :""
+            }
             {
                 isPopupAddStaff?
                 <>
@@ -532,6 +604,9 @@ const ContactPage = () => {
                                                 <div className=''>
                                                     <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
+                                                        onClick={() => {
+                                                            popupDeleteStaff(el.name)
+                                                        }}
                                                     >
                                                         X
                                                     </button>
@@ -573,6 +648,9 @@ const ContactPage = () => {
                                             >
                                                 <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
+                                                        onClick={() => {
+                                                            popupDeleteStaff(el.name)
+                                                        }}
                                                     >
                                                         X
                                                 </button>
@@ -610,6 +688,9 @@ const ContactPage = () => {
                                             >
                                                 <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
+                                                        onClick={() => {
+                                                            popupDeleteStaff(el.name)
+                                                        }}
                                                     >
                                                         X
                                                     </button>

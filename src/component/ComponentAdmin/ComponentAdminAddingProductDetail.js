@@ -3,9 +3,126 @@ import { useState } from 'react';
 import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
+import axios from 'axios';
+
+
+
 
 const ComponentAdminAddingProductDetail = () => {
+
+    const listRegion = [
+        {
+            "reigon": "Northern",
+            "data": [
+                "All",
+                "Chiang Mai",
+                "Chiang Rai",
+                "Lampang",
+                "Lamphun",
+                "Mae Hong Son",
+                "Nan",
+                "Phayao",
+                "Phrae",
+                "Uttaradit"
+            ],
+        },
+        {
+            "reigon": "Northeastern",
+            "data": [
+                "All",
+                "Amnat Charoen",
+                "Bueng Kan",
+                "Buriram",
+                "Chaiyaphum",
+                "Kalasin",
+                "Khon Kaen",
+                "Loei",
+                "Maha Sarakham",
+                "Mukdahan",
+                "Nakhon Phanom",
+                "Nakhon Ratchasima",
+                "Nong Bua Lamphu",
+                "Nong Khai",
+                "Roi Et",
+                "Sakon Nakhon",
+                "Si Sa Ket",
+                "Surin",
+                "Ubon Ratchathani",
+                "Udon Thani",
+                "Yasothon"
+            ],
+        },
+        {
+            "reigon": "Central",
+            "data": [
+                "All",
+                "Ang Thong",
+                "Ayutthaya",
+                "Bangkok",
+                "Chai Nat",
+                "Lopburi",
+                "Nakhon Nayok",
+                "Nakhon Pathom",
+                "Nonthaburi",
+                "Pathum Thani",
+                "Phetchabun",
+                "Phra Nakhon Si Ayutthaya",
+                "Phichit",
+                "Phitsanulok",
+                "Saraburi",
+                "Sing Buri",
+                "Suphan Buri",
+                "Uthai Thani"
+            ],
+        },
+        {
+            "reigon": "Eastern",
+            "data": [
+                "All",
+                "Chachoengsao",
+                "Chanthaburi",
+                "Chonburi",
+                "Prachin Buri",
+                "Rayong",
+                "Sa Kaeo",
+                "Trat"
+            ],
+        },
+        {
+            "reigon": "Western",
+            "data": [
+                "All",
+                "Kanchanaburi",
+                "Phetchaburi",
+                "Prachuap Khiri Khan",
+                "Ratchaburi",
+                "Tak"
+            ],
+        },
+        {
+            "reigon": "Southern",
+            "data": [
+                "All",
+                "Chumphon",
+                "Krabi",
+                "Nakhon Si Thammarat",
+                "Narathiwat",
+                "Pattani",
+                "Phang Nga",
+                "Phatthalung",
+                "Phuket",
+                "Ranong",
+                "Satun",
+                "Songkhla",
+                "Surat Thani",
+                "Trang",
+                "Yala"
+            ]
+        },
+    ];
     
+    const [staticRegion, setStaticRegion] = useState(listRegion)
+    const [staticProvince, setStaticProvince] = useState([]);
     const [isTitle, setTitle] = useState();
     const [isRegion, setRegion] = useState();
     const [isProvince, setProvince] = useState();
@@ -81,9 +198,40 @@ const ComponentAdminAddingProductDetail = () => {
         newArray.splice(idx, 1);
         setArrayActivites(newArray);
     }
+    
+
+    const haddleCreateProduct = async () => {
+        const formData = new FormData();
+        const setHeader = {
+            headers: {
+                'Content-Type': `multipart/form-data`
+            }
+        }
+
+        formData.append("images", isArrayImages);
+        formData.append("title",isTitle);
+        formData.append("region",isRegion);
+        formData.append("province",isProvince);
+        formData.append("ord",isOrd);
+        formData.append("rate",isRate);
+        formData.append("intro",isIntro);
+        formData.append("pricePerPerson",String(isPricePerPerson));
+        formData.append("activites", String(isArrayActivites));
+
+        try{
+            const statusCreate = await axios.post("http://localhost:8888/create/activites",formData,setHeader);
+            if(statusCreate.status === 200){
+                alert("create success!")
+            }else{
+                alert(`Error ${statusCreate.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
+    }
     // useEffect(() => {
 
-    // },[isPricePerPerson])
+    // },[staticProvince])
 
     return (
         <>
@@ -190,7 +338,7 @@ const ComponentAdminAddingProductDetail = () => {
 
                             <div className="mb-8">
                                 <div className='flex justify-between'>
-                                    <div className='flex'>
+                                    <div className=''>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#0a9396" className="w-8 h-8 lg:w-[50px] lg:h-[50px]" viewBox="0 0 24 24">
                                             <path fillRule="evenodd" d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z" clipRule="evenodd" />
                                         </svg>
@@ -199,7 +347,46 @@ const ComponentAdminAddingProductDetail = () => {
                                             <input
                                                 className='placeholder:text-[20px] placeholder:translate-y-[-5px] placeholder:translate-x-[15px] rounded-md  border-b-[1px] border-gray-500 '
                                                 placeholder='Product title..'
+                                                onChange={(evt)=>{
+                                                    setTitle(evt.target.value)
+                                                }}
                                             />
+                                        </h1>
+                                        <h1 className="text-[20px] lg:text-[35px] mt-10  text-gray-800 ml-4">
+                                            <span className='font-bold'>Region: </span>
+                                            <select
+                                                onChange={(e) => {
+                                                    setRegion(e.target.value)
+                                                    for(let i = 0; i < staticRegion.length; i++){
+                                                        if(staticRegion[i]['reigon'] === e.target.value){
+                                                            setStaticProvince(staticRegion[i]['data'])
+                                                        }   
+                                                    }
+                                                }}
+                                                name="region"
+                                                id="region"
+                                                className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
+                                            >
+                                                <option value="none">Select Region</option>
+                                                {staticRegion.map((el, idx) =>(
+                                                    <option key={idx} value={el['reigon']}>{el['reigon']}</option>
+                                                ))}
+                                            </select>
+                                        </h1>
+                                        <h1 className="text-[20px] lg:text-[35px] mt-10  text-gray-800 ml-4">
+                                            <span className='font-bold'>Province: </span>
+                                            <select
+                                                onChange={(e) => setProvince(e.target.value)}
+                                                name="province"
+                                                id="province"
+                                                className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
+                                            >
+                                                <option value="none">Select Province</option>
+                                                
+                                                {staticProvince.map((el, idx) => (
+                                                    <option key={idx} value={el}>{el}</option>
+                                                ))}
+                                            </select>
                                         </h1>
                                     </div>
                                     <div>
@@ -381,7 +568,12 @@ const ComponentAdminAddingProductDetail = () => {
                                     </div>
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
-                                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'>Create</button>
+                                    <button 
+                                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
+                                        onClick={() => {
+                                            haddleCreateProduct();
+                                        }}
+                                    >Create</button>
                                 </div>
                             </div>
                         </div>
