@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ComponentHomeNavbar from '../component/ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../component/ComponentHome/ComponentBottonBar';
+import axios from "axios"
 
 const ContactPage = () => {
 
@@ -77,7 +78,6 @@ const ContactPage = () => {
         }
     ]
 
-    // const [countImg, setCountImg] = useState();
     const [isServices, setServices] = useState([]);
     const [isStaff, setStaff] = useState([]);
     const [isStaffImage, setStaffImage] = useState("https://via.placeholder.com/300")
@@ -85,50 +85,90 @@ const ContactPage = () => {
     const [staffPostion, setStaffPostion] = useState("")
     const [staffName, setStaffName] = useState("")
     const [staffContact, setStaffContact] = useState("")
-
-    const [isContent, setContent] = useState([{
-        contentType: "",
-        iconUrl: "",
-        title: "",
-        content: ""
-    }]);
-
     const [staffHover, setStaffHover] = useState("");
     const [isPopupAddStaff, setPopupAddStaff]= useState(false);
-
-
     const [isStorgeContent, setStorageContent] = useState({
         imgUrl: "",
         content: "",
     });
-
     const [isStorageVision, setStorageVision] = useState({
         imgUrl: "",
         content: "",
     });
 
-
-    
-
     const haddleUpdateHistroy = async () => {
-        
+        const payload = {
+            imgUrl: "",
+            content: isStorgeContent
+        }
+        try{
+            const hisStatus = await axios.post("http://localhost:8888/his/update", payload)
+            if(hisStatus.status === 200){
+                alert("Update success!")
+            }else{
+                alert(`Error ${hisStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
     }
 
     const haddleUpdateVison = async () => {
-
+        const payload = {
+            imgUrl: "",
+            content: isStorageVision
+        }
+        try{
+            const visionStatus = await axios.post("http://localhost:8888/vision/update", payload)
+            if(visionStatus.status === 200){
+                alert("Update success!")
+            }else{
+                alert(`Error ${visionStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
     }
 
     const haddleUpdateService = async () => {
-
+        const payload = {
+            services: isServices
+        }
+        try{
+            const serviceStatus = await axios.post("http://localhost:8888/service/update", payload)
+            if(serviceStatus.status === 200){
+                alert("Update success!")
+            }else{
+                alert(`Error ${serviceStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
+        }
     }
 
     const haddleAddingStaff = async () => {
-        const payload = {
-            position: staffPostion,
-            rank: staffRank,
-            imgUrl: isStaffImage,
-            name: staffName,
-            contact: staffContact
+        const formData = new FormData();
+        const setHeader = {
+            headers: {
+                'Content-Type': `multipart/form-data`
+            }
+        }
+
+        formData.append("position", staffPostion)
+        formData.append("rank", staffRank)
+        formData.append("imgFile", isStaffImage)
+        formData.append("name", staffName)
+        formData.append("contact", staffContact)
+        
+        try{
+            const addStaffStatus = await axios.post("http://localhost:8888/example",formData,  setHeader)
+            if(addStaffStatus.status === 200){
+                alert("Add new staff success!")
+            }else{
+                alert(`errror ${addStaffStatus.status}`)
+            }
+        }catch(err){
+            alert(err)
         }
     }
 
@@ -176,6 +216,7 @@ const ContactPage = () => {
 
             return updatedServices;
         });
+
     };
 
 
@@ -226,7 +267,7 @@ const ContactPage = () => {
                 
             }
         })
-        setContent(demoContent);
+        // setContent(demoContent);
         setStaff(demoStaff)
     }
 
@@ -260,9 +301,10 @@ const ContactPage = () => {
                                 <label className='mr-5 font-bold text-[18px]'>image url: </label>
                                 <input 
                                     className='border-b-[1px] mt-[100px]   border-black w-[400px]' 
-                                    placeholder='https://via.placeholder.com/300'
+                                    type="file"
+                                    accept="image/*"
                                         onChange={(evt) => {
-                                            setStaffImage(evt.target.value)
+                                            setStaffImage(evt.target.files[0])
                                         }}
                                     />
                             </div>
@@ -345,15 +387,6 @@ const ContactPage = () => {
                     <div className='set-grid-about-r'>
                         <div className='mt-[40px] text-[18px] center-about-p '>
                             <div className='mt-[40px] md:ml-10 text-[16px] sm:text-[18px] text-center md:text-left'>
-                                <div className='font-semibold'>
-                                    {/* <input
-                                        className='rounded-md'
-                                        value={isStorgeContent.title}
-                                        onChange={(evt) => {
-                                            onChangeHistoryTitle(evt)
-                                        }}
-                                    /> */}
-                                </div>
                                 <textarea
                                     className='mt-2 w-[100%] h-[200px] rounded-md'
                                     value={isStorgeContent.content}
