@@ -158,12 +158,12 @@ const ContactPage = () => {
 
         formData.append("position", staffPostion)
         formData.append("rank", staffRank)
-        formData.append("imgFile", isStaffImage)
+        formData.append("image", isStaffImage)
         formData.append("name", staffName)
         formData.append("contact", staffContact)
         
         try{
-            const addStaffStatus = await axios.post("http://localhost:8888/example",formData,  setHeader)
+            const addStaffStatus = await axios.post("http://localhost:8888/api/about/add/staff",formData,  setHeader)
             if(addStaffStatus.status === 200){
                 alert("Add new staff success!")
             }else{
