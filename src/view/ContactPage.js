@@ -104,7 +104,7 @@ const ContactPage = () => {
             content: isStorgeContent
         }
         try{
-            const hisStatus = await axios.post("http://localhost:8888/his/update", payload)
+            const hisStatus = await axios.post("http://localhost:8888/api/update/about/histroy", payload)
             if(hisStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -121,7 +121,7 @@ const ContactPage = () => {
             content: isStorageVision
         }
         try{
-            const visionStatus = await axios.post("http://localhost:8888/vision/update", payload)
+            const visionStatus = await axios.post("http://localhost:8888/api/update/about/vision", payload)
             if(visionStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -137,7 +137,7 @@ const ContactPage = () => {
             services: isServices
         }
         try{
-            const serviceStatus = await axios.post("http://localhost:8888/service/update", payload)
+            const serviceStatus = await axios.post("http://localhost:8888/api/update/about/service", payload)
             if(serviceStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -196,12 +196,13 @@ const ContactPage = () => {
     }
 
     const haddleDeleteStaff = async (name) => {
+        // staff name //
         const payload = {
-            staffName: name
+            name: name
         }
 
         try{
-            const deleteStaffStatus = await axios.post("http://localhost/delete/staff", payload);
+            const deleteStaffStatus = await axios.delete("http://localhost:8888/api/delete/about/staff", payload);
             if(deleteStaffStatus.status === 200){
                 alert("delete staff success!")
                 window.location.reload();
