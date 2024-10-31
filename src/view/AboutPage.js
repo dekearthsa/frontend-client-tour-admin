@@ -4,6 +4,7 @@ import ComponentHomeNavbar from '../component/ComponentHome/ComponentHomeNavbar'
 import axios from "axios";
 
 const AboutPage = () => {
+    
     const [isContact, setContact] = useState();
     const [isGetInTouch, setGetInTouch] = useState();
     const [isIntro, setIntro] = useState();

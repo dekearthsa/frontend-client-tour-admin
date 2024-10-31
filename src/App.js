@@ -24,6 +24,7 @@ function App() {
           <Route path="/create_product" element={<ComponentAdminAddingProductDetail/>}></Route>
           <Route path="/product/:name" element={<ProductDetail/>}/>
           <Route path="/product/edit_product" element={<ComponentAdminEditProductDetail/>}/>
+          {/* <Route path="/test/upload" element={<ComponentTestUploadContent/>}></Route> */}
         </Routes>
         {/* <ComponentBottonBar/> */}
       </BrowserRouter>

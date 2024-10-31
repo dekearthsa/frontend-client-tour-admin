@@ -1,46 +1,54 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
-const ComponentTestUploadContent  =  () => {
-    const [content1, setContent1] = useState(null);
-    const [isImage, setIsImage] = useState(null);
+const ComponentTestUploadContent = () => {
+    const [content1, setContent1] = useState('');
+    const [isImage, setIsImage] = useState([]);
 
     const haddleChangeImage = (evt) => {
-        const imageFile = evt.target.files[0];
-        setIsImage(imageFile)
+        const imageFiles = Array.from(evt.target.files);
+        console.log("Selected files:", imageFiles);
+        setIsImage(imageFiles);
     }
 
     const haddleChangeImageID = (evt) => {
-        const setImageId = evt.target.value;
-        setContent1(setImageId);
+        setContent1(evt.target.value);
     }
 
     const haddleSubmit = async () => {
-
-        if(!isImage){
-            alert("No image upload.")
-        }else{
-            const formData = new FormData();    
-
-            const setHeader = {
-                headers: {
-                    'Content-Type': `multipart/form-data`
-                }
-            }
-            
-            formData.append("imageName", content1);
-            console.log("asd ==> ",content1)
-            formData.append("image", isImage);
-
-            await axios.post("http://localhost:8089/api/upload/content" ,formData,  setHeader)
-            // console.log(statusRelpy.data);
-            // if(statusRelpy.data.status === 200){
-            //     alert("success!")
-            // }else{  
-            //     alert(statusRelpy.data.desc)
-            // }
+        if (!isImage || isImage.length === 0) {
+            alert("No image uploaded.");
+            return;
         }
 
+        const formData = new FormData();
+
+        // Append each file individually with the key 'files'
+        isImage.forEach((file) => {
+            formData.append("files", file);
+        });
+
+        // Append other fields
+        formData.append("imageName", content1);
+        console.log("Image Name:", content1);
+        console.log("Images:", isImage);
+
+        try {
+            // Let Axios set the 'Content-Type' header automatically
+            const response = await axios.post("http://localhost:8089/api/upload/contents", formData, {
+                headers: {
+                    // 'Content-Type': 'multipart/form-data' // REMOVE THIS LINE
+                }
+            });
+            console.log("Response:", response.data);
+            alert("Files uploaded successfully.");
+            // Optionally reset the form
+            setIsImage([]);
+            setContent1('');
+        } catch (err) {
+            console.error("Error uploading files:", err);
+            alert("An error occurred while uploading the files.");
+        }
     }
 
     return (
@@ -48,9 +56,12 @@ const ComponentTestUploadContent  =  () => {
             <div>Test upload content</div>
             <input 
                 type="text" 
+                value={content1}
                 onChange={haddleChangeImageID}
+                placeholder="Image ID"
             />
             <input 
+                multiple
                 type='file'
                 accept="image/*"
                 onChange={haddleChangeImage}
@@ -60,4 +71,4 @@ const ComponentTestUploadContent  =  () => {
     )
 }
 
-export default ComponentTestUploadContent
+export default ComponentTestUploadContent;
