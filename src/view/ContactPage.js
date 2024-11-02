@@ -100,11 +100,12 @@ const ContactPage = () => {
 
     const haddleUpdateHistroy = async () => {
         const payload = {
-            imgUrl: "",
-            content: isStorgeContent
+            contentType: "history",
+            imgUrl: isStorgeContent.imgUrl,
+            content: isStorgeContent.content
         }
         try{
-            const hisStatus = await axios.post("http://localhost:8888/api/update/about/histroy", payload)
+            const hisStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/content", payload)
             if(hisStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -117,11 +118,12 @@ const ContactPage = () => {
 
     const haddleUpdateVison = async () => {
         const payload = {
-            imgUrl: "",
-            content: isStorageVision
+            contentType: "vision",
+            imgUrl: isStorageVision.imgUrl,
+            content: isStorageVision.content
         }
         try{
-            const visionStatus = await axios.post("http://localhost:8888/api/update/about/vision", payload)
+            const visionStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/content", payload)
             if(visionStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -137,7 +139,7 @@ const ContactPage = () => {
             services: isServices
         }
         try{
-            const serviceStatus = await axios.post("http://localhost:8888/api/update/about/service", payload)
+            const serviceStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/service", payload)
             if(serviceStatus.status === 200){
                 alert("Update success!")
             }else{
@@ -163,7 +165,7 @@ const ContactPage = () => {
         formData.append("contact", staffContact)
         
         try{
-            const addStaffStatus = await axios.post("http://localhost:8888/api/about/add/staff",formData,  setHeader)
+            const addStaffStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/add/about/staff",formData,  setHeader)
             if(addStaffStatus.status === 200){
                 alert("Add new staff success!")
             }else{

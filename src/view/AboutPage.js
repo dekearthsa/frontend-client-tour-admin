@@ -103,7 +103,7 @@ const AboutPage = () => {
             items: items
         }
 
-        const dataStatus = await axios.post("", payload);
+        const dataStatus = await axios.post("http://localhost:8888/api/content/update", payload);
         if(dataStatus.status === 200){
             alert("Update success!")
         }else{
