@@ -3,7 +3,8 @@ import { useState } from 'react';
 import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const  ComponentAdminEditProductDetail = () => {
 
@@ -18,6 +19,8 @@ const  ComponentAdminEditProductDetail = () => {
         content
     } = location.state || {};
 
+    const navigate = useNavigate();
+    
     const [isTitle, setTitle] = useState(title);
     // const [isRegion, setRegion] = useState();
     // const [isProvince, setProvince] = useState();
@@ -33,10 +36,14 @@ const  ComponentAdminEditProductDetail = () => {
     const [isContent, setContent] = useState();
 
     const [isImageName, setImageName] = useState([]);
+    const [isImageFiles, setImageFiles] = useState([]);
     const [isArrayImages, setArrayImages] = useState(images);
+    const [imageFilesToPush, setImageFilesToPush] = useState([]);
     const [isDemoShowImages, setDemoShowImages] = useState([]);
+
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState(content);
+    
 
     
     // console.log("content => ", isArrayActivites)
@@ -50,16 +57,20 @@ const  ComponentAdminEditProductDetail = () => {
     }
 
     const handleImageChange = (event) => {
+        setArrayImages([]);
+        setImageFiles([]);
+        setImageName([]);
         const files = Array.from(event.target.files);
-        const newImages = files.map((file) => {
-            return URL.createObjectURL(file);
+        // console.log("Selected files:", files); // Debugging
+        let arrayImageName = [];
+        files.forEach((file) => {
+            arrayImageName.push(file.name)
         });
-        setArrayImages((prevImages) => [...prevImages, ...newImages]);
 
-        const newFileName = files.map((file) => {
-            return file.name
-        });
-        setImageName((prevName) => [...prevName, ...newFileName])
+        const newImages = files.map((file) => URL.createObjectURL(file));
+        setArrayImages((prevImages) => [...prevImages, ...newImages]);
+        setImageFiles((prevFiles) => [...prevFiles, ...files]);
+        setImageName((prevName) => [...prevName, ...arrayImageName])
     };
 
     const haddleAddingPricePerPerson = () => {
@@ -72,18 +83,94 @@ const  ComponentAdminEditProductDetail = () => {
 
 
     const haddleAddingContent = () => {
-        const arrayContent = {
-            day: isDayContent,
-            content: isContent,
-            image: isImageName,
-            imageBlobUrl: isArrayImages
+        if (isDayContent && isContent && isArrayImages.length > 0) {
+            const arrayContent = {
+                day: isDayContent,
+                content: isContent,
+                image: isArrayImages,
+                imageName: isImageName
+            };
+            setImageFilesToPush([...imageFilesToPush , ...isImageFiles])
+            setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
+            setArrayActivites([...isArrayActivites, arrayContent]);
+            setDayContent('');
+            setContent('');
+            setImageFiles([]);
+            setArrayImages([]);
         }
-        setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
-        setArrayActivites([...isArrayActivites, arrayContent]);
-        setDayContent();
-        setContent();
-        setImageName([]);
-        setArrayImages([]);
+    }
+
+
+    const haddleUpdateProduct = async () => {
+        console.log("imageFilesToPush => ", imageFilesToPush)
+        console.log("title => ", isTitle)
+        console.log("ord => ", isOrd)
+        console.log("rate => ", isIntro)
+        console.log("pricePerPerson => ", isPricePerPerson)
+        console.log("activites => ", isArrayActivites)
+        const formData = new FormData();
+        
+
+        // Append other fields
+        imageFilesToPush.forEach((file) => {
+            formData.append("images", file);
+        });
+        // formData.append("images", isImageFiles)
+        formData.append("title", isTitle || '');
+        // formData.append("region", isRegion || '');
+        // formData.append("province", isProvince || '');
+        formData.append("ord", String(isOrd || 0));
+        formData.append("rate", String(isRate || 0));
+        formData.append("intro", String(isIntro || ''));
+        formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
+        formData.append("activites", JSON.stringify(isArrayActivites));
+
+
+        try {
+            const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/product", formData, {
+                headers: {
+                    // 'Content-Type': `multipart/form-data`
+                }
+            });
+            console.log(statusCreate.data);
+            if (statusCreate.status === 200) {
+                alert("Create successful!");
+                navigate("/shop")
+                // Reset the form
+                // setImageFiles([]);
+                // setImageFilesToPush([]);
+                // setTitle('');
+                // setRegion('');
+                // setProvince('');
+                // setOrd('');
+                // setRate('');
+                // setIntro('');
+                // setPrice('');
+                // setPricePerPerson([]);
+                // setArrayActivites([]);
+                // setDemoShowImages([]);
+                // window.location("/")
+            } else {
+                // setImageFiles([]);
+                // setImageFilesToPush([]);
+                // setTitle('');
+                // setRegion('');
+                // setProvince('');
+                // setOrd('');
+                // setRate('');
+                // setIntro('');
+                // setPrice('');
+                // setPricePerPerson([]);
+                // setArrayActivites([]);
+                // setDemoShowImages([]);
+                alert(`Error ${statusCreate.status}`);
+                
+            }
+        } catch (err) {
+            console.log(err);
+            // setImageFiles([]);
+            alert("An error occurred while creating the product.");
+        }
     }
 
 
@@ -412,6 +499,7 @@ const  ComponentAdminEditProductDetail = () => {
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
                                     <button 
+                                        onClick={haddleUpdateProduct}
                                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                     >Update</button>
                                 </div>

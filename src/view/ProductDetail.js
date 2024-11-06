@@ -46,7 +46,7 @@ const ProductDetail = () => {
         }
 
         try{
-            const removeStatus = await axios.post("", payload);
+            const removeStatus = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/remove/product", payload);
             if(removeStatus.status === 200){
                 alert("remove success!")
                 navigate("/shop")

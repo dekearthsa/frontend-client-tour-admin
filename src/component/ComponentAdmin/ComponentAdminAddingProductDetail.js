@@ -133,6 +133,7 @@ const ComponentAdminAddingProductDetail = () => {
     const [isDayContent, setDayContent] = useState('');
     const [isContent, setContent] = useState('');
     const [isImageFiles, setImageFiles] = useState([]);
+    const [imageFilesToPush, setImageFilesToPush] = useState([]);
     const [isImageName, setImageName] = useState([]);
     const [isArrayImages, setArrayImages] = useState([]);
     const [isDemoShowImages, setDemoShowImages] = useState([]);
@@ -144,6 +145,9 @@ const ComponentAdminAddingProductDetail = () => {
     }
 
     const handleImageChange = (event) => {
+        setArrayImages([]);
+        setImageFiles([]);
+        setImageName([]);
         const files = Array.from(event.target.files);
         // console.log("Selected files:", files); // Debugging
         let arrayImageName = [];
@@ -178,11 +182,12 @@ const ComponentAdminAddingProductDetail = () => {
                 imageBlobUrl: isArrayImages,
                 imageName: isImageName
             };
+            setImageFilesToPush([...imageFilesToPush , ...isImageFiles])
             setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
             setArrayActivites([...isArrayActivites, arrayContent]);
             setDayContent('');
             setContent('');
-            // setImageFiles([]);
+            setImageFiles([]);
             setArrayImages([]);
         }
     }
@@ -206,12 +211,12 @@ const ComponentAdminAddingProductDetail = () => {
     }
 
     const haddleCreateProduct = async () => {
-        console.log("isImageFiles => ", isImageFiles)
+        console.log("imageFilesToPush => ", imageFilesToPush)
         const formData = new FormData();
         
 
         // Append other fields
-        isImageFiles.forEach((file) => {
+        imageFilesToPush.forEach((file) => {
             formData.append("images", file);
         });
         // formData.append("images", isImageFiles)
@@ -226,7 +231,7 @@ const ComponentAdminAddingProductDetail = () => {
 
 
         try {
-            const statusCreate = await axios.post("http://localhost:8088/api/create/product", formData, {
+            const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/create/product", formData, {
                 headers: {
                     // 'Content-Type': `multipart/form-data`
                 }
@@ -236,6 +241,7 @@ const ComponentAdminAddingProductDetail = () => {
                 alert("Create successful!");
                 // Reset the form
                 setImageFiles([]);
+                setImageFilesToPush([]);
                 setTitle('');
                 setRegion('');
                 setProvince('');
@@ -246,9 +252,22 @@ const ComponentAdminAddingProductDetail = () => {
                 setPricePerPerson([]);
                 setArrayActivites([]);
                 setDemoShowImages([]);
+                // window.location("/")
             } else {
                 setImageFiles([]);
+                setImageFilesToPush([]);
+                setTitle('');
+                setRegion('');
+                setProvince('');
+                setOrd('');
+                setRate('');
+                setIntro('');
+                setPrice('');
+                setPricePerPerson([]);
+                setArrayActivites([]);
+                setDemoShowImages([]);
                 alert(`Error ${statusCreate.status}`);
+                
             }
         } catch (err) {
             console.log(err);

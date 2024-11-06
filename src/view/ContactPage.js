@@ -20,14 +20,17 @@ const ContactPage = () => {
 
     const demoServices = [
         {
+            static_name_id: "transportation",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/2043/2043096.png",
             title: "Transportation"
         },
         {
+            static_name_id: "tour_planing",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/8324/8324006.png",
             title: "Tour Planing"
         },
         {
+            static_name_id: "tailor_made_program",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/4171/4171085.png",
             title: "Tailor Made Program"
         }
@@ -138,6 +141,7 @@ const ContactPage = () => {
         const payload = {
             services: isServices
         }
+        console.log(payload)
         try{
             const serviceStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/service", payload)
             if(serviceStatus.status === 200){
@@ -204,7 +208,7 @@ const ContactPage = () => {
         }
 
         try{
-            const deleteStaffStatus = await axios.delete("http://localhost:8888/api/delete/about/staff", payload);
+            const deleteStaffStatus = await axios.delete("https://backend-node-about-505177410747.asia-southeast1.run.app/api/delete/about/staff", payload);
             if(deleteStaffStatus.status === 200){
                 alert("delete staff success!")
                 window.location.reload();

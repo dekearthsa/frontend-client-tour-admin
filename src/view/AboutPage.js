@@ -103,7 +103,7 @@ const AboutPage = () => {
             items: items
         }
 
-        const dataStatus = await axios.post("http://localhost:8888/api/content/update", payload);
+        const dataStatus = await axios.post("https://backend-node-content-505177410747.asia-southeast1.run.app/api/content/update", payload);
         if(dataStatus.status === 200){
             alert("Update success!")
         }else{
