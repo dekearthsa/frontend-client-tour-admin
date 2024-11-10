@@ -7,26 +7,28 @@ const ComponentBottonBar = () => {
     const [isEmail, setEmail] = useState();
     const [isPhone, setPhone] = useState();
 
-    const demoData = {
-        email: "reservation.psdntianna@gmail.com",
-        phone: "+66898512076 , +66834784611",
-    }
+    // const demoData = {
+    //     email: "reservation.psdntianna@gmail.com",
+    //     tel: "+66898512076 , +66834784611",
+    // }
 
-    const haddleFetch = () => {
-        setEmail(demoData.email);
-        setPhone(demoData.phone)
+    const haddleFetch = async () => {
+        const fetchContact = await axios.get("https://backend-node-content-505177410747.asia-southeast1.run.app/api/get/contact/btn")
+        setEmail(fetchContact.data.email);
+        setPhone(fetchContact.data.tel)
     }
 
     const haddleUpdate = async () => {
         const payload = {
             email: isEmail,
-            phone: isPhone,
+            tel: isPhone,
         }
 
-        const updateStatus = await axios.post("", payload);
+        const updateStatus = await axios.post("https://backend-node-content-505177410747.asia-southeast1.run.app/api/contact/btn", payload);
         try{
             if(updateStatus.status === 200){
                 alert("update success!");
+                window.location.reload();
             }else{
                 alert(updateStatus.status);
             }
