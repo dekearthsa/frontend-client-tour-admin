@@ -177,7 +177,7 @@ const ComponentShopPopUp = () => {
                     setArrayPeron([]);
                     setIsPrice("");
                     setIsPerson("");
-                    
+                    window.location.reload();
                 }else{
                     alert("Image can't uploaded!")
                     setIsLoading(false);

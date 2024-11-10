@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import axios from "axios"
@@ -88,10 +89,18 @@ const ComponentTopRate = () => {
         return setDataPop;
     };
 
-    const haddleGetDataPopular = () => {
-        const setArrayPop = demoPop.filter(item => item.rate === 5);
-        const dataPopRnd = funcRandomPopular(setArrayPop);
-        setIsPopData(dataPopRnd);
+    const haddleGetDataPopular = async () => {
+        let arrayPopular = []
+        const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product");
+        for(let i = 0; i < fetchProduct.data.length; i++){
+            if(fetchProduct.data[i].ord === 5){
+                arrayPopular.push(fetchProduct.data[i])
+                if(i === 4){
+                    break
+                }
+            }
+        }
+        setIsPopData(arrayPopular);
     };
 
     useEffect(() => {

@@ -5,81 +5,6 @@ import axios from "axios"
 
 const ContactPage = () => {
 
-    const demoContent = [
-        {
-            contentType: "history",
-            imgUrl: "https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg",
-            content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        },
-        {
-            contentType: "vision",
-            imgUrl: "https://marketplace.canva.com/EAFaFUz4aKo/2/0/1600w/canva-yellow-abstract-cooking-fire-free-logo-JmYWTjUsE-Q.jpg",
-            content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        }
-    ]
-
-    const demoServices = [
-        {
-            static_name_id: "transportation",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/2043/2043096.png",
-            title: "Transportation"
-        },
-        {
-            static_name_id: "tour_planing",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/8324/8324006.png",
-            title: "Tour Planing"
-        },
-        {
-            static_name_id: "tailor_made_program",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/4171/4171085.png",
-            title: "Tailor Made Program"
-        }
-    ]
-
-    const demoStaff = [
-        {
-            position: "CEO",
-            rank: 1,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/c/ca/Rio_Icon.png",
-            name: "Tsukatsuki Rio",
-            contact: "Example@gmail.com"
-        },
-        {
-            position: "CMO",
-            rank: 2,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/7/7b/Yuuka_Icon.png",
-            name: "Hayase Yuuka",
-            contact: "Example@gmail.com"
-        },
-        {
-            position: "CFO",
-            rank: 2,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/3/31/Noa_Icon.png",
-            name: "Ushio Noa",
-            contact: "Example@gmail.com"
-        },
-        {
-            position: "Driver1",
-            rank: 3,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/9/97/Koyuki_Icon.png",
-            name: "Kurosaki Koyuki",
-            contact: "Example@gmail.com"
-        },
-        {
-            position: "Driver2",
-            rank: 3,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/7/7b/Alice_Icon.png",
-            name: "Tendou Alice",
-            contact: "Example@gmail.com"
-        },
-        {
-            position: "Driver3",
-            rank: 3,
-            imgUrl: "https://static.wikia.nocookie.net/blue-archive/images/a/aa/Asuna_Schoolgirl_Icon.png",
-            name: "Ichinose Asuna",
-            contact: "Example@gmail.com"
-        }
-    ]
 
     const [isPopupDeleteStaff,setPopupDeleteStaff] = useState(false);
     const [isServices, setServices] = useState([]);
@@ -111,6 +36,7 @@ const ContactPage = () => {
             const hisStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/content", payload)
             if(hisStatus.status === 200){
                 alert("Update success!")
+                window.location.reload();
             }else{
                 alert(`Error ${hisStatus.status}`)
             }
@@ -129,6 +55,7 @@ const ContactPage = () => {
             const visionStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/content", payload)
             if(visionStatus.status === 200){
                 alert("Update success!")
+                window.location.reload();
             }else{
                 alert(`Error ${visionStatus.status}`)
             }
@@ -146,6 +73,7 @@ const ContactPage = () => {
             const serviceStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/service", payload)
             if(serviceStatus.status === 200){
                 alert("Update success!")
+                window.location.reload();
             }else{
                 alert(`Error ${serviceStatus.status}`)
             }
@@ -172,6 +100,7 @@ const ContactPage = () => {
             const addStaffStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/add/about/staff",formData,  setHeader)
             if(addStaffStatus.status === 200){
                 alert("Add new staff success!")
+                window.location.reload();
             }else{
                 alert(`errror ${addStaffStatus.status}`)
             }
@@ -203,12 +132,13 @@ const ContactPage = () => {
 
     const haddleDeleteStaff = async (name) => {
         // staff name //
+        // console.log("name.trim() => ",name.trim())
         const payload = {
-            name: name
+            name: name.trim()
         }
 
         try{
-            const deleteStaffStatus = await axios.delete("https://backend-node-about-505177410747.asia-southeast1.run.app/api/delete/about/staff", payload);
+            const deleteStaffStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/delete/about/staff", payload);
             if(deleteStaffStatus.status === 200){
                 alert("delete staff success!")
                 window.location.reload();
@@ -280,9 +210,15 @@ const ContactPage = () => {
     }
 
     const haddleFetchAboutPage = async () => {
-        setServices(demoServices);
+        const fetchServices = await axios.get("https://backend-node-about-505177410747.asia-southeast1.run.app/api/get/services")
+        const fetchStaff = await axios.get("https://backend-node-about-505177410747.asia-southeast1.run.app/api/get/staff")
+        const fetchAbout = await axios.get("https://backend-node-about-505177410747.asia-southeast1.run.app/api/get/about")
+        
+        console.log("fetchStaff => ",fetchStaff.data)
 
-        demoContent.map(async (el, idx) => {
+        setServices(fetchServices.data);
+
+        fetchAbout.data.map(async (el, idx) => {
             if (el.contentType === "history") {
                 const setStruct = {
                     imgUrl: el.imgUrl,
@@ -304,7 +240,7 @@ const ContactPage = () => {
             }
         })
         // setContent(demoContent);
-        setStaff(demoStaff)
+        setStaff(fetchStaff.data)
     }
 
     useEffect(() => {
@@ -597,7 +533,7 @@ const ContactPage = () => {
                                     return (
                                         <div key={idx} className='relative'>
                                             {/* Hover div */}
-                                            {staffHover === el.name ? (
+                                            {staffHover === el.staff_name ? (
                                                 <div className='absolute duration-500 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl text-center bg-black text-white h-[40px] w-[180px] sm:w-[230px] translate-y-[-30px] translate-x-0 sm:translate-x-[160px]'>
                                                     <div className='translate-y-[7px] font-bold'>{el.contact}</div>
                                                 </div>
@@ -605,14 +541,14 @@ const ContactPage = () => {
 
                                             {/* Image and details */}
                                             <div
-                                                onMouseEnter={() => setStaffHover(el.name)}
+                                                onMouseEnter={() => setStaffHover(el.staff_name)}
                                                 onMouseLeave={() => setStaffHover('')}
                                             >
                                                 <div className=''>
                                                     <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
                                                         onClick={() => {
-                                                            popupDeleteStaff(el.name)
+                                                            popupDeleteStaff(el.staff_name)
                                                         }}
                                                     >
                                                         X
@@ -620,13 +556,13 @@ const ContactPage = () => {
                                                     <img
                                                         className='w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] m-auto rounded-full mb-5 object-cover shadow-xl'
                                                         src={el.imgUrl}
-                                                        alt={el.name}
+                                                        alt={el.staff_name}
                                                     />
                                                 </div>
                                                 
                                                 <div className='detail text-center'>
                                                     <div className='text-sm sm:text-base font-semibold'>{el.position}</div>
-                                                    <div className='text-sm sm:text-base'>{el.name}</div>
+                                                    <div className='text-sm sm:text-base'>{el.staff_name}</div>
                                                 </div>
                                             </div>
                                             
@@ -642,7 +578,7 @@ const ContactPage = () => {
                                     return (
                                         <div key={idx} className='relative'>
                                             {/* Hover div */}
-                                            {staffHover === el.name ? (
+                                            {staffHover === el.staff_name ? (
                                                 <div className='absolute rounded-tl-2xl rounded-tr-2xl rounded-br-2xl text-center bg-black text-white h-[40px] w-[180px] sm:w-[230px] translate-y-[-30px] translate-x-0 sm:translate-x-[130px]'>
                                                     <div className='translate-y-[7px] font-bold'>{el.contact}</div>
                                                 </div>
@@ -650,13 +586,13 @@ const ContactPage = () => {
 
                                             {/* Image and details */}
                                             <div
-                                                onMouseEnter={() => setStaffHover(el.name)}
+                                                onMouseEnter={() => setStaffHover(el.staff_name)}
                                                 onMouseLeave={() => setStaffHover('')}
                                             >
                                                 <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
                                                         onClick={() => {
-                                                            popupDeleteStaff(el.name)
+                                                            popupDeleteStaff(el.staff_name)
                                                         }}
                                                     >
                                                         X
@@ -664,11 +600,11 @@ const ContactPage = () => {
                                                 <img
                                                     className='w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] m-auto rounded-full mb-5 object-cover shadow-xl'
                                                     src={el.imgUrl}
-                                                    alt={el.name}
+                                                    alt={el.staff_name}
                                                 />
                                                 <div className='detail text-center'>
                                                     <div className='text-sm sm:text-base font-semibold'>{el.position}</div>
-                                                    <div className='text-sm sm:text-base'>{el.name}</div>
+                                                    <div className='text-sm sm:text-base'>{el.staff_name}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -683,20 +619,20 @@ const ContactPage = () => {
                                     return (
                                         <div key={idx} className='relative'>
                                             {/* Hover div */}
-                                            {staffHover === el.name ? (
+                                            {staffHover === el.staff_name ? (
                                                 <div className='absolute rounded-tl-2xl rounded-tr-2xl rounded-br-2xl text-center bg-black text-white h-[40px] w-[180px] sm:w-[230px] translate-y-[-30px] translate-x-0 sm:translate-x-[130px]'>
                                                     <div className='translate-y-[7px] font-bold'>{el.contact}</div>
                                                 </div>
                                             ) : null}
                                             {/* Image and details */}
                                             <div
-                                                onMouseEnter={() => setStaffHover(el.name)}
+                                                onMouseEnter={() => setStaffHover(el.staff_name)}
                                                 onMouseLeave={() => setStaffHover('')}
                                             >
                                                 <button
                                                         className='text-[20px] font-bold bg-red-400 rounded-full w-8 h-8 text-white'
                                                         onClick={() => {
-                                                            popupDeleteStaff(el.name)
+                                                            popupDeleteStaff(el.staff_name)
                                                         }}
                                                     >
                                                         X
@@ -704,11 +640,11 @@ const ContactPage = () => {
                                                 <img
                                                     className='w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] m-auto rounded-full mb-5 object-cover shadow-xl'
                                                     src={el.imgUrl}
-                                                    alt={el.name}
+                                                    alt={el.staff_name}
                                                 />
                                                 <div className='detail text-center'>
                                                     <div className='text-sm sm:text-base font-semibold'>{el.position}</div>
-                                                    <div className='text-sm sm:text-base'>{el.name}</div>
+                                                    <div className='text-sm sm:text-base'>{el.staff_name}</div>
                                                 </div>
                                             </div>
                                         </div>

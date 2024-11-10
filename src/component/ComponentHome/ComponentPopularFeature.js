@@ -93,10 +93,17 @@ const ComponentPopularFeature =   () => {
     };
 
     const haddleGetDataPopular = async () => {
-        const setArrayPop = demoPop.filter(item => item.ord === 5);
-        console.log("setArrayPop => ", setArrayPop)
-        const dataPopRnd = await funcRandomPopular(setArrayPop);
-        setIsPopData(dataPopRnd);
+        let arrayPopular = []
+        const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product")
+        for(let i = 0; i < fetchProduct.data.length; i++){
+            if(fetchProduct.data[i].ord === 5){
+                arrayPopular.push(fetchProduct.data[i])
+                if(i === 4){
+                    break
+                }
+            }
+        }
+        setIsPopData(arrayPopular);
     };
 
     useEffect(() => {

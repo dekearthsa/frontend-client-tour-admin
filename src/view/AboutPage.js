@@ -12,33 +12,14 @@ const AboutPage = () => {
     const [isPhoneScreen, setIsphoneScreen] = useState();
     const [items, setItems] = useState([]);
 
-    const demoContactData = {
-        titleContact: "Get in Touch",
-        introContact: "We would love to hear from you! Whether you have a question about features, trials, pricing, need a demo, or anything else, our team is ready to answer all your questions.",
-        items: [
-            {
-                image: "https://cdn-icons-png.flaticon.com/512/9946/9946319.png",
-                title: "Phone",
-                description: "Reach us by phone at (+66) 898512076, 834784611",
-            },
-            {
-                image: "https://cdn-icons-png.flaticon.com/512/14831/14831599.png",
-                title: "Location",
-                description: "Visit us at 285, Nong Phueng Subdistrict, Saraphi District, Chiang Mai 50140",
-            },
-            {
-                image: "https://cdn-icons-png.flaticon.com/512/526/526901.png",
-                title: "Email",
-                description: "reservation.psdntianna@gmail.com",
-            },
-        ],
-    };
 
     const haddleFetchContact = async () => {
-        setContact(demoContactData);
-        setGetInTouch(demoContactData.titleContact);
-        setIntro(demoContactData.introContact);
-        setItems(demoContactData.items);
+        const fetchContact = await axios.get("https://backend-node-content-505177410747.asia-southeast1.run.app/api/get/content");
+
+        setContact(fetchContact.data);
+        setGetInTouch(fetchContact.data.titleContact);
+        setIntro(fetchContact.data.introContact);
+        setItems(JSON.parse(fetchContact.data.items));
     };
 
     const haddleWindowScreenCss = async () => {
@@ -98,14 +79,15 @@ const AboutPage = () => {
     
     const haddleUpdateCard =  async () => {
         const payload = {
-            titleContact: isContact,
-            introContact: isGetInTouch,
+            titleContact: isGetInTouch,
+            introContact: isIntro,
             items: items
         }
 
         const dataStatus = await axios.post("https://backend-node-content-505177410747.asia-southeast1.run.app/api/content/update", payload);
         if(dataStatus.status === 200){
             alert("Update success!")
+            window.location.reload();
         }else{
             alert(dataStatus.status)
         }

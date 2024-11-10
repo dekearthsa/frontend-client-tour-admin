@@ -231,6 +231,7 @@ const ComponentAdminAddingProductDetail = () => {
 
 
         try {
+            // console.log(isRegion, isProvince)
             const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/create/product", formData, {
                 headers: {
                     // 'Content-Type': `multipart/form-data`
@@ -253,6 +254,7 @@ const ComponentAdminAddingProductDetail = () => {
                 setArrayActivites([]);
                 setDemoShowImages([]);
                 // window.location("/")
+                window.location.reload();
             } else {
                 setImageFiles([]);
                 setImageFilesToPush([]);

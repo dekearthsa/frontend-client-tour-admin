@@ -4,7 +4,6 @@ import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const  ComponentAdminEditProductDetail = () => {
 
@@ -19,11 +18,7 @@ const  ComponentAdminEditProductDetail = () => {
         content
     } = location.state || {};
 
-    const navigate = useNavigate();
-    
     const [isTitle, setTitle] = useState(title);
-    // const [isRegion, setRegion] = useState();
-    // const [isProvince, setProvince] = useState();
 
     const [isOrd, setOrd] = useState(ord);
     const [isRate, setRate] = useState(rate);
@@ -43,10 +38,6 @@ const  ComponentAdminEditProductDetail = () => {
 
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState(content);
-    
-
-    
-    // console.log("content => ", isArrayActivites)
 
     const haddlePopup = () => {
         if (!isPopup) {
@@ -102,74 +93,76 @@ const  ComponentAdminEditProductDetail = () => {
 
 
     const haddleUpdateProduct = async () => {
-        console.log("imageFilesToPush => ", imageFilesToPush)
-        console.log("title => ", isTitle)
-        console.log("ord => ", isOrd)
-        console.log("rate => ", isIntro)
-        console.log("pricePerPerson => ", isPricePerPerson)
-        console.log("activites => ", isArrayActivites)
+        // console.log("imageFilesToPush => ", imageFilesToPush)
+        // console.log("imageFilesToPush length => ", imageFilesToPush.length)
+        // console.log("title => ", isTitle)
+        // console.log("ord => ", isOrd)
+        // console.log("rate => ", isIntro)
+        // console.log("pricePerPerson => ", isPricePerPerson)
+        // console.log("activites => ", isArrayActivites)
+
         const formData = new FormData();
-        
 
-        // Append other fields
-        imageFilesToPush.forEach((file) => {
-            formData.append("images", file);
-        });
-        // formData.append("images", isImageFiles)
-        formData.append("title", isTitle || '');
-        // formData.append("region", isRegion || '');
-        // formData.append("province", isProvince || '');
-        formData.append("ord", String(isOrd || 0));
-        formData.append("rate", String(isRate || 0));
-        formData.append("intro", String(isIntro || ''));
-        formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
-        formData.append("activites", JSON.stringify(isArrayActivites));
-
-
-        try {
-            const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/product", formData, {
-                headers: {
-                    // 'Content-Type': `multipart/form-data`
-                }
+        if(imageFilesToPush.length !== 0){
+            // Append other fields
+            imageFilesToPush.forEach((file) => {
+                formData.append("images", file);
             });
-            console.log(statusCreate.data);
-            if (statusCreate.status === 200) {
-                alert("Create successful!");
-                navigate("/shop")
-                // Reset the form
-                // setImageFiles([]);
-                // setImageFilesToPush([]);
-                // setTitle('');
-                // setRegion('');
-                // setProvince('');
-                // setOrd('');
-                // setRate('');
-                // setIntro('');
-                // setPrice('');
-                // setPricePerPerson([]);
-                // setArrayActivites([]);
-                // setDemoShowImages([]);
-                // window.location("/")
-            } else {
-                // setImageFiles([]);
-                // setImageFilesToPush([]);
-                // setTitle('');
-                // setRegion('');
-                // setProvince('');
-                // setOrd('');
-                // setRate('');
-                // setIntro('');
-                // setPrice('');
-                // setPricePerPerson([]);
-                // setArrayActivites([]);
-                // setDemoShowImages([]);
-                alert(`Error ${statusCreate.status}`);
-                
+            formData.append("title", isTitle.trim() || '');
+            formData.append("ord", String(isOrd || 0));
+            formData.append("rate", String(isRate || 0));
+            formData.append("intro", String(isIntro || ''));
+            formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
+            formData.append("activites", JSON.stringify(isArrayActivites));
+            try {
+                const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/product", formData, {
+                    headers: {
+                        // 'Content-Type': `multipart/form-data`
+                    }
+                });
+                console.log(statusCreate.data);
+                if (statusCreate.status === 200) {
+                    alert("Update successful!");
+                    window.location.reload();
+                    // navigate("/shop")
+                } else {
+                    alert(`Error ${statusCreate.status}`);
+                    
+                }
+            } catch (err) {
+                console.log(err);
+                alert("An error occurred while update the product. : ", err);
             }
-        } catch (err) {
-            console.log(err);
-            // setImageFiles([]);
-            alert("An error occurred while creating the product.");
+        }else{
+            const payload = {
+                title:title.trim(),
+                ord: Number(isOrd),
+                rate: Number(isRate),
+                intro: String(isIntro),
+                pricePerPerson: JSON.stringify(isPricePerPerson),
+                activites: JSON.stringify(isArrayActivites)
+            }
+
+            try {
+                const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/noimg/product", payload, {
+                    headers: {
+                        // 'Content-Type': `multipart/form-data`
+                    }
+                });
+                console.log(statusCreate.data);
+                if (statusCreate.status === 200) {
+                    alert("Update successful!");
+                    window.location.reload();
+                    // navigate("/shop")
+                } else {
+                    alert(`Error ${statusCreate.status}`);
+                    
+                }
+            } catch (err) {
+                console.log(err);
+                // setImageFiles([]);
+                alert("An error occurred while update the product. : ", err);
+            }
         }
     }
 
