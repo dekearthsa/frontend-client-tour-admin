@@ -12,7 +12,7 @@ const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, con
                 )}&rate=${encodeURIComponent(rate)}&ord=${encodeURIComponent(ord)}`,
             }}
         >
-            <div className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            <div className="group  bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
                     <img
                         src={JSON.parse(images)[0]}

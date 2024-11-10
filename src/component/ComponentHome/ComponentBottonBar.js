@@ -40,7 +40,7 @@ const ComponentBottonBar = () => {
     },[])
 
     return (
-        <div id="c-bottom-bar" className="bg-red-500 w-full py-6 flex flex-col md:flex-row justify-between items-center">
+        <div id="c-bottom-bar" className="bg-red-500 w-full py-2 flex flex-col md:flex-row justify-between items-center">
             {/* Contact Section */}
             <div className="text-center md:text-left">
                 <div className="font-bold text-white text-lg md:ml-10">CONTACT</div>

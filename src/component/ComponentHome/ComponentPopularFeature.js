@@ -2,74 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import ComponentStarToprate from "./ComponentStarToprate"
 import axios from "axios"
+// import ComponentLoading from '../ComponentAnimationLoading/ComponentLoading'
+import  ComponentCardLoading  from '../ComponentAnimationLoading/ComponentCardLoading';
 
 
 
 const ComponentPopularFeature =   () => {
-    const [dataPop,  setDataPop] = useState([]);
+    // const [dataPop,  setDataPop] = useState([]);
     const [isPopData, setIsPopData] = useState([]);
-    const demoPop = [
-        {
-            images: '["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test1",
-            region: "Northern",
-            ord: 5,
-            rate: 5,
-            intro: "1111",
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-        {
-            images:'["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test2",
-            region: "Northern",
-            intro: "22222",
-            ord: 5,
-            rate: 5,
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-        {
-            images:'["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test3",
-            region: "Northern",
-            intro: "22222",
-            ord: 5,
-            rate: 5,
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-        {
-            images:'["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test4",
-            region: "Northern",
-            intro: "22222",
-            ord: 5,
-            rate: 5,
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-        {
-            images:'["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test5",
-            region: "Northern",
-            intro: "22222",
-            ord: 5,
-            rate: 5,
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-        {
-            images:'["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg","https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg", "https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]',
-            title: "test6",
-            region: "Northern",
-            intro: "22222",
-            ord: 4,
-            rate: 4,
-            pricePerPerson: '[{"person": 1, "price": 1000}, {"person": 2, "price": 2000}]',
-            content: '[{"day":1, "content":"aaaaa", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":2, "content":"bbbbb", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]},{"day":3, "content":"Cccccc", "image":["https://as1.ftcdn.net/v2/jpg/03/30/56/26/1000_F_330562667_q3zqwfRQQGbzZNZ0XKDrxuBNRDfyhnNO.jpg"]}]'
-        },
-    ]
+    const [loading, setLoading] = useState(true);
 
     const funcRandomPopular = async (data) => {
         const lengthData = data.length;
@@ -97,12 +38,14 @@ const ComponentPopularFeature =   () => {
         const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product")
         for(let i = 0; i < fetchProduct.data.length; i++){
             if(fetchProduct.data[i].ord === 5){
-                arrayPopular.push(fetchProduct.data[i])
                 if(i === 4){
                     break
                 }
+                arrayPopular.push(fetchProduct.data[i])
+                
             }
         }
+        setLoading(false)
         setIsPopData(arrayPopular);
     };
 
@@ -117,6 +60,9 @@ const ComponentPopularFeature =   () => {
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Popular Destinations</h2>
             </div>
             <div className="lg:flex lg:justify-center  mt-10">
+                {
+                    loading === true? <ComponentCardLoading/> : ""
+                }
                 {isPopData.map((el, idx) => (
                     <div key={idx} className="group w-[85%] m-auto lg:w-[450px]  lg:ml-5 lg:mr-5">
                         <Link

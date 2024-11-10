@@ -126,7 +126,7 @@ const AboutPage = () => {
 
             {/* Content Section */}
             <div className="container mx-auto px-4 py-12 md:py-20">
-                <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 lg:h-[65vh] shadow-2xl rounded-xl p-8 md:p-16">
+                <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 lg:h-[85vh] shadow-2xl rounded-xl p-8 md:p-16">
                     {isContact ? (
                         <>
                             <h2 className="fade-in duration-1500 ease-out transform transition-all text-4xl md:text-5xl font-extrabold mb-8 text-center ">
@@ -173,7 +173,7 @@ const AboutPage = () => {
 
                                                 return (
                                                     <div key={index} className={cardClass}>
-                                                        <div className="w-[400px] h-[35 0px]   bg-gradient-to-b from-black to-gray-900 text-white rounded-xl overflow-hidden shadow-xl border border-gray-700">
+                                                        <div className="w-[400px] h-[350px]   bg-gradient-to-b from-black to-gray-900 text-white rounded-xl overflow-hidden shadow-xl border border-gray-700">
                                                             <div className='text-white text-[20px] flex justify-end'>
                                                                 <button 
                                                                     className='translate-x-[-20px] translate-y-[10px] rounded-full bg-gray-500 w-10 h-10'
