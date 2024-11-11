@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import  ComponentCardLoading  from '../ComponentAnimationLoading/ComponentCardLoading';
-// import axios from "axios"
 
+// import axios from "axios"
 // import ComponentStarToprate from "./ComponentStarToprate";
 
 const ComponentTopRate = () => {
@@ -63,7 +63,17 @@ const ComponentTopRate = () => {
                         key={idx}
                         to={{
                             pathname: `product/:${el.title}`,
-                            search: `?region=${encodeURIComponent(el.region)}&title=${encodeURIComponent(el.title)}&intro=${encodeURIComponent(el.intro)}&price=${encodeURIComponent(el.pricePerPerson)}&img=${encodeURIComponent(el.images)}&content=${encodeURIComponent(el.content)}&rate=${encodeURIComponent(el.rate)}`
+                            search: `?region=${encodeURIComponent(el.region)}
+                                    &province=${encodeURIComponent(el.province)}
+                                    &title=${encodeURIComponent(el.title)}
+                                    &intro=${encodeURIComponent(el.intro)}
+                                    &price=${encodeURIComponent(el.pricePerPerson)}
+                                    &img=${encodeURIComponent(el.images)}
+                                    &content=${encodeURIComponent(el.content)}
+                                    &rate=${encodeURIComponent(el.rate)}
+                                    &ord=${encodeURIComponent(el.ord)}
+                                    &static_id=${encodeURIComponent(el.static_id)}
+                                    `
                         }}
                         className="group"
                     >

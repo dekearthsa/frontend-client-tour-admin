@@ -7,11 +7,6 @@ const ComponentBottonBar = () => {
     const [isEmail, setEmail] = useState();
     const [isPhone, setPhone] = useState();
 
-    // const demoData = {
-    //     email: "reservation.psdntianna@gmail.com",
-    //     tel: "+66898512076 , +66834784611",
-    // }
-
     const haddleFetch = async () => {
         const fetchContact = await axios.get("https://backend-node-content-505177410747.asia-southeast1.run.app/api/get/contact/btn")
         setEmail(fetchContact.data.email);

@@ -6,7 +6,6 @@ import axios from "axios"
 
 const ContactPage = () => {
 
-
     const [isPopupDeleteStaff, setPopupDeleteStaff] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const [isServices, setServices] = useState([]);
@@ -71,7 +70,7 @@ const ContactPage = () => {
         const payload = {
             services: isServices
         }
-        console.log(payload)
+        // console.log(payload)
         try {
             const serviceStatus = await axios.post("https://backend-node-about-505177410747.asia-southeast1.run.app/api/update/about/service", payload)
             if (serviceStatus.status === 200) {
@@ -188,15 +187,12 @@ const ContactPage = () => {
 
     };
 
-
-
     const onChangeHistoryContent = (evt) => {
         setStorageContent({
             ...isStorgeContent,
             content: evt.target.value,
         });
     }
-
 
     const onChangeVisionContent = (evt) => {
         setStorageVision({

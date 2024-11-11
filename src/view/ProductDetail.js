@@ -25,6 +25,9 @@ const ProductDetail = () => {
     const setPriceJSON = JSON.parse(setPricePrice);
     const content = searchParams.get("content");
     const setContentJSON = JSON.parse(content);
+    const setRegion = searchParams.get("region");
+    const setProvince = searchParams.get("province");
+    const staticID = searchParams.get("static_id")
     // console.log("ord => ",ord)
     const navigate = useNavigate();
 
@@ -70,7 +73,10 @@ const ProductDetail = () => {
                     ord:ord,
                     intro:intro,
                     setPricePrice:setPriceJSON,
-                    content:setContentJSON
+                    content:setContentJSON,
+                    region: setRegion,
+                    province: setProvince,
+                    static_id: staticID
                 }
             }
         )

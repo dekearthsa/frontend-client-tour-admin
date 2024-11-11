@@ -1,0 +1,13 @@
+# nginx.conf.template
+server {
+    listen 5144;
+
+    server_name localhost;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+}

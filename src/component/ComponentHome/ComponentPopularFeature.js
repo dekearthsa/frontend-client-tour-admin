@@ -69,12 +69,16 @@ const ComponentPopularFeature =   () => {
                             to={{
                                 pathname: `product/:${el.title}`,
                                 search: `?region=${encodeURIComponent(el.region)}
+                                    &province=${encodeURIComponent(el.province)}
                                     &title=${encodeURIComponent(el.title)}
                                     &intro=${encodeURIComponent(el.intro)}
                                     &price=${encodeURIComponent(el.pricePerPerson)}
                                     &img=${encodeURIComponent(el.images)}
                                     &content=${encodeURIComponent(el.content)}
-                                    &rate=${encodeURIComponent(el.rate)}`
+                                    &rate=${encodeURIComponent(el.rate)}
+                                    &ord=${encodeURIComponent(el.ord)}
+                                    &static_id=${encodeURIComponent(el.static_id)}
+                                    `
                             }}
                         >
                             <div className="relative overflow-hidden bg-white rounded-lg shadow-lg group-hover:shadow-2xl transition-shadow duration-300">

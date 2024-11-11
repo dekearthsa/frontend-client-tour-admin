@@ -1,12 +1,19 @@
-FROM node:14-alpine AS build 
+FROM node:18-alpine
+
+RUN mkdir -p /usr/src/app
+
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+
 COPY . .
+
+ENV PYTHONPATH=${PYTHONPATH}:${PWD}
+
+ENV PORT 5144
+
+RUN npm install -g serve
+
+RUN npm install
+# Build the React app
 RUN npm run build
-FROM node:14-alpine
-WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/build /usr/src/app
-RUN npm install -g http-server
-EXPOSE 5144
-CMD ["http-server", "-p", "5144"]
+
+CMD ["serve", "-s", "-l", "5144", "./build"]

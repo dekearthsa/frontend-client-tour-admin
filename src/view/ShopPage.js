@@ -164,6 +164,7 @@ const ShopPage = () => {
 
     const haddleFetchProduct = async (isLocationStateProvince) => {
         const demoProductDataAPI = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product")
+        console.log(demoProductDataAPI.data)
         // setLoadingProduct(true);
         setProduct(demoProductDataAPI.data);
         // console.log(demoProductDataAPI, isSelectRegion, isProvince, isLocationStateProvince)

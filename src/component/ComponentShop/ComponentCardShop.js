@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 
-const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, content, images, rate, ord }) => {
+const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, content, images, rate, ord, static_id }) => {
     return (
         <Link
             to={{
                 pathname: `/product/:${title}`,
-                search: `?region=${encodeURIComponent(region)}&title=${encodeURIComponent(title)}&intro=${encodeURIComponent(
+                search: `?region=${encodeURIComponent(region)}&province=${encodeURIComponent(province)}&title=${encodeURIComponent(title)}&intro=${encodeURIComponent(
                     intro
                 )}&price=${encodeURIComponent(pricePerPerson)}&img=${encodeURIComponent(images)}&content=${encodeURIComponent(
                     content
-                )}&rate=${encodeURIComponent(rate)}&ord=${encodeURIComponent(ord)}`,
+                )}&rate=${encodeURIComponent(rate)}&ord=${encodeURIComponent(ord)}&static_id=${encodeURIComponent(static_id)}`,
             }}
         >
             <div className="group  bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">

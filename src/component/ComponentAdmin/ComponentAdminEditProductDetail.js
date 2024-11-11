@@ -5,27 +5,147 @@ import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 import axios from 'axios';
 
-const  ComponentAdminEditProductDetail = () => {
+const ComponentAdminEditProductDetail = () => {
 
     const location = useLocation();
-    const { 
-        title, 
+    const {
+        title,
         images,
         rate,
+        region,
+        province,
         ord,
         intro,
         setPricePrice,
-        content
+        content,
+        static_id
     } = location.state || {};
 
+    const listRegion = [
+        {
+            "reigon": "Northern",
+            "data": [
+                "All",
+                "Chiang Mai",
+                "Chiang Rai",
+                "Lampang",
+                "Lamphun",
+                "Mae Hong Son",
+                "Nan",
+                "Phayao",
+                "Phrae",
+                "Uttaradit"
+            ],
+        },
+        {
+            "reigon": "Northeastern",
+            "data": [
+                "All",
+                "Amnat Charoen",
+                "Bueng Kan",
+                "Buriram",
+                "Chaiyaphum",
+                "Kalasin",
+                "Khon Kaen",
+                "Loei",
+                "Maha Sarakham",
+                "Mukdahan",
+                "Nakhon Phanom",
+                "Nakhon Ratchasima",
+                "Nong Bua Lamphu",
+                "Nong Khai",
+                "Roi Et",
+                "Sakon Nakhon",
+                "Si Sa Ket",
+                "Surin",
+                "Ubon Ratchathani",
+                "Udon Thani",
+                "Yasothon"
+            ],
+        },
+        {
+            "reigon": "Central",
+            "data": [
+                "All",
+                "Ang Thong",
+                "Ayutthaya",
+                "Bangkok",
+                "Chai Nat",
+                "Lopburi",
+                "Nakhon Nayok",
+                "Nakhon Pathom",
+                "Nonthaburi",
+                "Pathum Thani",
+                "Phetchabun",
+                "Phra Nakhon Si Ayutthaya",
+                "Phichit",
+                "Phitsanulok",
+                "Saraburi",
+                "Sing Buri",
+                "Suphan Buri",
+                "Uthai Thani"
+            ],
+        },
+        {
+            "reigon": "Eastern",
+            "data": [
+                "All",
+                "Chachoengsao",
+                "Chanthaburi",
+                "Chonburi",
+                "Prachin Buri",
+                "Rayong",
+                "Sa Kaeo",
+                "Trat"
+            ],
+        },
+        {
+            "reigon": "Western",
+            "data": [
+                "All",
+                "Kanchanaburi",
+                "Phetchaburi",
+                "Prachuap Khiri Khan",
+                "Ratchaburi",
+                "Tak"
+            ],
+        },
+        {
+            "reigon": "Southern",
+            "data": [
+                "All",
+                "Chumphon",
+                "Krabi",
+                "Nakhon Si Thammarat",
+                "Narathiwat",
+                "Pattani",
+                "Phang Nga",
+                "Phatthalung",
+                "Phuket",
+                "Ranong",
+                "Satun",
+                "Songkhla",
+                "Surat Thani",
+                "Trang",
+                "Yala"
+            ]
+        },
+    ];
+    // console.log("region=> ",region)
+    // console.log("province=> ",province)
     const [isTitle, setTitle] = useState(title);
+    const [listLocation, setListLocation] = useState(listRegion);
+    const [listProvince, setListProvince] = useState([]);
+    const [isRegion, setRegion] = useState(region);
+    const [isProvince, setProvince] = useState(province);
 
+    // console.log(ord)
     const [isOrd, setOrd] = useState(ord);
     const [isRate, setRate] = useState(rate);
     const [isIntro, setIntro] = useState(intro);
 
     const [isPrice, setPrice] = useState();
-    const [isPerson,setPerson] = useState();
+    const [isPerson, setPerson] = useState();
     const [isPricePerPerson, setPricePerPerson] = useState(setPricePrice);
     const [isDayContent, setDayContent] = useState();
     const [isContent, setContent] = useState();
@@ -66,8 +186,9 @@ const  ComponentAdminEditProductDetail = () => {
 
     const haddleAddingPricePerPerson = () => {
         const arrayPrice = {
-                person: isPerson,
-                price: isPrice}
+            person: isPerson,
+            price: isPrice
+        }
         setPricePerPerson([...isPricePerPerson, arrayPrice])
         // console.log("isPricePerPerson => ", isPricePerPerson)
     }
@@ -81,7 +202,7 @@ const  ComponentAdminEditProductDetail = () => {
                 image: isArrayImages,
                 imageName: isImageName
             };
-            setImageFilesToPush([...imageFilesToPush , ...isImageFiles])
+            setImageFilesToPush([...imageFilesToPush, ...isImageFiles])
             setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
             setArrayActivites([...isArrayActivites, arrayContent]);
             setDayContent('');
@@ -93,70 +214,69 @@ const  ComponentAdminEditProductDetail = () => {
 
 
     const haddleUpdateProduct = async () => {
-        // console.log("imageFilesToPush => ", imageFilesToPush)
-        // console.log("imageFilesToPush length => ", imageFilesToPush.length)
-        // console.log("title => ", isTitle)
-        // console.log("ord => ", isOrd)
-        // console.log("rate => ", isIntro)
-        // console.log("pricePerPerson => ", isPricePerPerson)
-        // console.log("activites => ", isArrayActivites)
 
         const formData = new FormData();
 
-        if(imageFilesToPush.length !== 0){
+        if (imageFilesToPush.length !== 0) {
             // Append other fields
             imageFilesToPush.forEach((file) => {
                 formData.append("images", file);
             });
-            formData.append("title", isTitle.trim() || '');
-            formData.append("ord", String(isOrd || 0));
-            formData.append("rate", String(isRate || 0));
-            formData.append("intro", String(isIntro || ''));
+            formData.append("static_id", static_id)
+            formData.append("title", isTitle.trim());
+            formData.append("ord", String(isOrd));
+            formData.append("rate", String(isRate));
+            formData.append("intro", String(isIntro));
             formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
             formData.append("activites", JSON.stringify(isArrayActivites));
+            formData.append("region", isRegion)
+            formData.append("province", isProvince)
             try {
                 const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/product", formData, {
                     headers: {
                         // 'Content-Type': `multipart/form-data`
                     }
                 });
-                console.log(statusCreate.data);
+                // console.log(statusCreate.data);
                 if (statusCreate.status === 200) {
                     alert("Update successful!");
                     window.location.reload();
                     // navigate("/shop")
                 } else {
                     alert(`Error ${statusCreate.status}`);
-                    
+
                 }
             } catch (err) {
                 console.log(err);
                 alert("An error occurred while update the product. : ", err);
             }
-        }else{
+        } else {
             const payload = {
-                title:title.trim(),
+                static_id: static_id,
+                title: isTitle.trim(),
                 ord: Number(isOrd),
                 rate: Number(isRate),
                 intro: String(isIntro),
                 pricePerPerson: JSON.stringify(isPricePerPerson),
-                activites: JSON.stringify(isArrayActivites)
+                activites: JSON.stringify(isArrayActivites),
+                region: isRegion,
+                province: isProvince
             }
-
+            // console.log("payload => ",payload)
             try {
                 const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/update/noimg/product", payload, {
                     headers: {
                         // 'Content-Type': `multipart/form-data`
                     }
                 });
-                console.log(statusCreate.data);
+                // console.log(statusCreate.data);
                 if (statusCreate.status === 200) {
                     alert("Update successful!");
-                    window.location.reload();
+                    // window.location.reload();
                     // navigate("/shop")
                 } else {
                     alert(`Error ${statusCreate.status}`);
-                    
+
                 }
             } catch (err) {
                 console.log(err);
@@ -183,12 +303,12 @@ const  ComponentAdminEditProductDetail = () => {
 
     return (
         <>
-        
+
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
-                // style={{
-                //     backgroundImage: `url(https://img.goodfon.com/original/2048x1128/b/40/bangkok-thailand-bangkok-tailand-gorod-krasota-noch.jpg)`,
-                // }}
+            // style={{
+            //     backgroundImage: `url(https://img.goodfon.com/original/2048x1128/b/40/bangkok-thailand-bangkok-tailand-gorod-krasota-noch.jpg)`,
+            // }}
             >
                 <div className="min-h-screen opacity-90">
 
@@ -197,9 +317,9 @@ const  ComponentAdminEditProductDetail = () => {
                             <ComponentHomeNavbar />
                         </div>
                     </div>
-                    
+
                     <div className="container mx-auto px-4 py-12 ">
-                        
+
                         {
                             isPopup ? <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
                                 <div className='right-0  mr-10 absolute z-50 text-white text-[40px]'>
@@ -215,7 +335,7 @@ const  ComponentAdminEditProductDetail = () => {
                         }
 
                         <div className="mt-[30px]  grid grid-cols-2  gap-1">
-                            
+
                             <div className=''>
                                 {
                                     isDemoShowImages.map((el, idx) => {
@@ -281,9 +401,9 @@ const  ComponentAdminEditProductDetail = () => {
                                 }
                             </div>
                         </div>
-                                    
+
                         <div className="mt-12 on-set-detail-bg-product rounded-lg shadow-lg p-8 md:p-12 ">
-                             {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
+                            {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
                             <div className='text-center text-4xl font-bold text-gray-700 mb-[100px]'>Update product</div>
 
                             <div className="mb-8">
@@ -312,7 +432,7 @@ const  ComponentAdminEditProductDetail = () => {
                                                 type='number'
                                                 min='0'
                                                 max='5'
-                                                value={isRate}
+                                                value={isRate.trim()}
                                                 onChange={((evt) => {
                                                     setRate(evt.target.value)
                                                 })}
@@ -325,18 +445,59 @@ const  ComponentAdminEditProductDetail = () => {
                                                 type='number'
                                                 min='0'
                                                 max='5'
-                                                value={isOrd}
+                                                value={isOrd.trim()}
                                                 onChange={((evt) => {
                                                     setOrd(evt.target.value)
                                                 })}
                                             />
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                             </div>
-                            
+                            <div>
+                                <h1 className="text-[20px] lg:text-[35px] mt-10  text-gray-800 ml-4">
+                                    <span className='font-bold'>Region: </span>
+                                    
+                                    <select
+                                        onChange={(e) => {
+                                            setRegion(e.target.value)
+                                            for (let i = 0; i < listLocation.length; i++) {
+                                                if (listLocation[i]['reigon'] === e.target.value) {
+                                                    setListProvince(listLocation[i]['data'])
+                                                }
+                                            }
+                                        }}
+                                        name="region"
+                                        id="region"
+                                        className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
+                                        value={isRegion}
+                                    >
+                                        <option value="none">Select Region</option>
+                                        {listLocation.map((el, idx) => (
+                                            <option key={idx} value={el['reigon']}>{el['reigon']}</option>
+                                        ))}
+                                    </select>
+                                    <span className='ml-5'>Default is: {isRegion}</span>
+                                </h1>
+                                <h1 className="text-[20px] lg:text-[35px] mt-10  text-gray-800 ml-4">
+                                    <span className='font-bold'>Province: </span>
+                                    <select
+                                        onChange={(e) => setProvince(e.target.value)}
+                                        name="province"
+                                        id="province"
+                                        className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
+                                        value={isProvince}
+                                    >
+                                        <option value="none">Select Province</option>
+                                        {listProvince.map((el, idx) => (
+                                            <option key={idx} value={el}>{el}</option>
+                                        ))}
+                                    </select>
+                                    <span className='ml-5'>Default is: {isProvince}</span>
+                                </h1>
+                            </div>
                             <div className="mt-[70px]">
                                 <h2 className="text-[20px] lg:text-[35px] font-bold text-gray-800 flex items-center mb-6">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="#0a9396" className="w-8 h-8" viewBox="0 0 24 24">
@@ -345,7 +506,7 @@ const  ComponentAdminEditProductDetail = () => {
                                     <span className="ml-4">Introduction</span>
                                 </h2>
                                 <p className="text-[25px] text-gray-600 leading-relaxed">
-                                    <textarea 
+                                    <textarea
                                         value={isIntro}
                                         className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
                                         onChange={((evt) => {
@@ -388,19 +549,19 @@ const  ComponentAdminEditProductDetail = () => {
                                                 })}
                                             />
                                         </span>
-                                        <button 
+                                        <button
                                             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                             onClick={haddleAddingPricePerPerson}
-                                            >add</button>
+                                        >add</button>
                                     </div>
                                     {
                                         isPricePerPerson.map((el, idx) => (
-                                            <div key={idx} className= "lg:w-[350px] bg-gray-50 border border-gray-300 rounded-lg p-4 flex justify-between items-center shadow-sm">
+                                            <div key={idx} className="lg:w-[350px] bg-gray-50 border border-gray-300 rounded-lg p-4 flex justify-between items-center shadow-sm">
                                                 {/* {el} */}
                                                 <span className='font-bold'>Person {el.person}</span>
                                                 <span className='font-bold'>Price ฿{el.price}</span>
                                                 <span>
-                                                    <button 
+                                                    <button
                                                         className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
                                                         onClick={() => haddleRemovePrice(idx)}
                                                     >-</button>
@@ -419,8 +580,8 @@ const  ComponentAdminEditProductDetail = () => {
                                     <span className="ml-4">Activities</span>
                                 </h2>
                                 <div className="space-y-6">
-                                    
-                                    <div  className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
+
+                                    <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
                                         <div className='flex'>
                                             <h3 className='text-xl font-bold mr-3'>Day</h3>
                                             <input
@@ -445,7 +606,7 @@ const  ComponentAdminEditProductDetail = () => {
                                         </div>
                                         <div className='mt-10'>
                                             <div className='font-bold text-xl'>Content</div>
-                                            <textarea  
+                                            <textarea
                                                 className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
                                                 onChange={((evt) => {
                                                     setContent(evt.target.value)
@@ -453,45 +614,45 @@ const  ComponentAdminEditProductDetail = () => {
                                             >
                                             </textarea>
                                         </div>
-                                        <div className='mt-5 mb-5 flex justify-end'>   
-                                            <button 
+                                        <div className='mt-5 mb-5 flex justify-end'>
+                                            <button
                                                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                                 onClick={haddleAddingContent}
-                                                >Add activities</button>
+                                            >Add activities</button>
                                         </div>
                                         {
-                                            
-                                        isArrayActivites.map((el, idx) => (
-                                        <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
-                                            <div className='flex justify-between'>
-                                                <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
-                                                <button 
-                                                    className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
-                                                    onClick={() => {
-                                                        haddleRemoveActivites(idx);
-                                                    }}
-                                                >-</button>
-                                            </div>
-                                            <div className='grid grid-cols-2'>
-                                                {
-                                                    el.image.map((img, idx) => (
-                                                        <img 
-                                                            key={idx}
-                                                            className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' 
-                                                            src={img} 
-                                                        />
-                                                    ))
-                                                }
-                                            </div>
-                                            
-                                            <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
-                                        </div>
-                                        ))
-                                    }
+
+                                            isArrayActivites.map((el, idx) => (
+                                                <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
+                                                    <div className='flex justify-between'>
+                                                        <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
+                                                        <button
+                                                            className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
+                                                            onClick={() => {
+                                                                haddleRemoveActivites(idx);
+                                                            }}
+                                                        >-</button>
+                                                    </div>
+                                                    <div className='grid grid-cols-2'>
+                                                        {
+                                                            el.image.map((img, idx) => (
+                                                                <img
+                                                                    key={idx}
+                                                                    className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]'
+                                                                    src={img}
+                                                                />
+                                                            ))
+                                                        }
+                                                    </div>
+
+                                                    <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
-                                    <button 
+                                    <button
                                         onClick={haddleUpdateProduct}
                                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                     >Update</button>

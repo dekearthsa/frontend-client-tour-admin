@@ -211,7 +211,7 @@ const ComponentAdminAddingProductDetail = () => {
     }
 
     const haddleCreateProduct = async () => {
-        console.log("imageFilesToPush => ", imageFilesToPush)
+        // console.log("imageFilesToPush => ", imageFilesToPush)
         const formData = new FormData();
         
 
