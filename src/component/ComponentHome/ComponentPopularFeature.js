@@ -38,7 +38,7 @@ const ComponentPopularFeature =   () => {
         const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product")
         for(let i = 0; i < fetchProduct.data.length; i++){
             if(fetchProduct.data[i].ord === 5){
-                if(i === 4){
+                if(i > 6){
                     break
                 }
                 arrayPopular.push(fetchProduct.data[i])
@@ -89,7 +89,7 @@ const ComponentPopularFeature =   () => {
                                 />
                                 <div className="p-4">
                                     <h3 className="text-xl font-semibold text-gray-800 truncate">{el.title}</h3>
-                                    <p className="text-gray-500 mt-2">{el.intro}</p>
+                                    <p className="text-gray-500 mt-2">{el.intro.slice(0,33)}...</p>
                                     <div className="flex items-center justify-between mt-4">
                                         <span className="text-lg font-bold text-indigo-600">From ฿{JSON.parse(el.pricePerPerson)[0].price}</span>
                                         <span className="bg-indigo-500 text-white px-3 py-1 rounded-full">{el.rate} ★</span>

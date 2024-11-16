@@ -1,9 +1,12 @@
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 import axios from 'axios';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import 'ckeditor5/ckeditor5.css';
 
 const ComponentAdminEditProductDetail = () => {
 
@@ -159,6 +162,11 @@ const ComponentAdminEditProductDetail = () => {
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState(content);
 
+    const editorContainerRef = useRef(null);
+    const editorRef = useRef(null);
+    const [isLayoutReady, setIsLayoutReady] = useState(false);
+    const [editorData, setEditorData] = useState(''); // State to store editor content
+
     const haddlePopup = () => {
         if (!isPopup) {
             setPopup(true)
@@ -166,6 +174,42 @@ const ComponentAdminEditProductDetail = () => {
             setPopup(false)
         }
     }
+
+    useEffect(() => {
+        setIsLayoutReady(true);
+
+        return () => setIsLayoutReady(false);
+    }, []);
+
+    const editorConfig = {
+        toolbar: {
+            items: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link'],
+            shouldNotGroupWhenFull: false,
+        },
+        // Add any additional plugins or configurations as needed
+        initialData: '<p>Edit your content here.</p>',
+        link: {
+            addTargetToExternalLinks: true,
+            defaultProtocol: 'https://',
+            decorators: {
+                toggleDownloadable: {
+                    mode: 'manual',
+                    label: 'Downloadable',
+                    attributes: {
+                        download: 'file',
+                    },
+                },
+            },
+        },
+        placeholder: 'Type or paste your content here!',
+    };
+
+    // Handler for editor content changes
+    const handleEditorChange = (event, editor) => {
+        const data = editor.getData();
+        setEditorData(data);
+    };
+
 
     const handleImageChange = (event) => {
         setArrayImages([]);
@@ -195,10 +239,10 @@ const ComponentAdminEditProductDetail = () => {
 
 
     const haddleAddingContent = () => {
-        if (isDayContent && isContent && isArrayImages.length > 0) {
+        if (isDayContent) {
             const arrayContent = {
                 day: isDayContent,
-                content: isContent,
+                content: editorData,
                 image: isArrayImages,
                 imageName: isImageName
             };
@@ -300,6 +344,7 @@ const ComponentAdminEditProductDetail = () => {
         setArrayActivites(newArray);
     }
 
+    
 
     return (
         <>
@@ -606,13 +651,27 @@ const ComponentAdminEditProductDetail = () => {
                                         </div>
                                         <div className='mt-10'>
                                             <div className='font-bold text-xl'>Content</div>
-                                            <textarea
-                                                className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
-                                                onChange={((evt) => {
-                                                    setContent(evt.target.value)
-                                                })}
-                                            >
-                                            </textarea>
+                                            <div >
+                                                <div className="main-container">
+                                                    <div
+                                                    className="editor-container editor-container_classic-editor"
+                                                    ref={editorContainerRef}
+                                                    >
+                                                    <div className="editor-container__editor">
+                                                        <div ref={editorRef}>
+                                                            {isLayoutReady && (
+                                                                <CKEditor
+                                                                    editor={ClassicEditor}
+                                                                    config={editorConfig}
+                                                                    data={editorData}
+                                                                    onChange={handleEditorChange}
+                                                                />
+                                                            )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className='mt-5 mb-5 flex justify-end'>
                                             <button
@@ -645,7 +704,18 @@ const ComponentAdminEditProductDetail = () => {
                                                         }
                                                     </div>
 
-                                                    <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
+                                                    {/* <p className="text-[20px] text-gray-600 mt-10">{el.content}</p> */}
+                                                    <div
+                                                    className="text-[20px] text-gray-600 mt-10"
+                                                    
+                                                    >
+                                                        <div
+                                                            className='content'
+                                                            dangerouslySetInnerHTML={{ __html: el.content }}
+                                                        >
+
+                                                        </div>
+                                                </div>
                                                 </div>
                                             ))
                                         }

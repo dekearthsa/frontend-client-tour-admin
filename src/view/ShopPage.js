@@ -325,7 +325,7 @@ const ShopPage = () => {
     } else {
         return (
             <div
-                className="relative h-[105vh]   bg-cover bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)] text-gray-800"
+                className="relative h-[120vh]  bg-cover bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)] text-gray-800"
             >
                 <div className="text-white h-[65px]  bg-gradient-to-r from-gray-900 to-gray-800  pt-10 font-bold w-[100%] z-10 opacity-80">
                     <div className='translate-y-[-20px]'>
@@ -381,9 +381,10 @@ const ShopPage = () => {
                             ))}
                         </div>
                     </aside>
-                    <section className="lg:ml-10 md:w-3/4">
+                    <section className="lg:ml-10 md:w-3/4 overflow-auto h-[100vh]">
                         <h2 className={animate ? "text-2xl font-semibold text-gray-700 lg:text-white mb-6 slide-in-right" : ""}>{isSelectRegion} : <span className='text-[24px]'>{isProvince}</span></h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
                             {
                                 isLoading? <ComponentLoading/> : ""
                             }

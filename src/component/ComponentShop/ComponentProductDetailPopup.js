@@ -26,7 +26,7 @@ const ComponentProductDetailPopup = ({images}) => {
                         <img
                             src={slide}
                             alt={"img"+"_"+index}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                     </div>
                 ))}
@@ -50,7 +50,7 @@ const ComponentProductDetailPopup = ({images}) => {
             >
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-white/50 dark:hover:bg-gray-800/60 focus:ring-4 focus:ring-white dark:focus:ring-gray-800/70">
                     <svg
-                        className="w-4 h-4 text-white"
+                        className="w-4 h-4 text-black"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
@@ -68,7 +68,7 @@ const ComponentProductDetailPopup = ({images}) => {
             >
                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-white/50 dark:hover:bg-gray-800/60 focus:ring-4 focus:ring-white dark:focus:ring-gray-800/70">
                     <svg
-                        className="w-4 h-4 text-white"
+                        className="w-4 h-4 text-black"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"

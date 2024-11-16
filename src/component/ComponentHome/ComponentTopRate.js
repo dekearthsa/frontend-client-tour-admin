@@ -35,7 +35,7 @@ const ComponentTopRate = () => {
         const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product");
         for(let i = 0; i < fetchProduct.data.length; i++){
             if(fetchProduct.data[i].ord === 5){
-                if(i === 4){
+                if(i > 4){
                     break
                 }
                 arrayPopular.push(fetchProduct.data[i])
@@ -92,7 +92,7 @@ const ComponentTopRate = () => {
                                     ))}
                                 </div>
                                 <h3 className="text-[22px] md:text-[24px] font-bold mb-1">{el.title}</h3>
-                                <p className="text-gray-600 text-[14px] md:text-[16px] mb-4">{el.intro}</p>
+                                <p className="text-gray-600 text-[14px] md:text-[16px] mb-4">{el.intro.slice(0,33)}...</p>
                                 <p className="text-gray-500 text-[16px]">Starting from:</p>
                                 <p className="text-gray-800 text-[24px] font-bold">฿{JSON.parse(el.pricePerPerson)[0]['price']}</p>
                             </div>

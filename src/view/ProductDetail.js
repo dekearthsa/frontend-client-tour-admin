@@ -25,6 +25,7 @@ const ProductDetail = () => {
     const setPriceJSON = JSON.parse(setPricePrice);
     const content = searchParams.get("content");
     const setContentJSON = JSON.parse(content);
+    console.log("setContentJSON => ",setContentJSON)
     const setRegion = searchParams.get("region");
     const setProvince = searchParams.get("province");
     const staticID = searchParams.get("static_id")
@@ -158,7 +159,7 @@ const ProductDetail = () => {
                         </div>
                         {
                             isPopup ? <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
-                                <div className='right-0  mr-10 absolute z-50 text-white text-[40px]'>
+                                <div className='right-0  mr-10 absolute z-50 text-black text-[40px]'>
                                     <button
                                         onClick={() => {
                                             haddlePopup();
@@ -291,8 +292,18 @@ const ProductDetail = () => {
                                     {setContentJSON.map((el, idx) => (
                                         <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
                                             <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
-                                            <img className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' src={el.image} />
-                                            <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
+                                            <div className='grid grid-cols-3 gap-x-4' >
+                                                {
+                                                    el.image.map((img, idx) => (
+                                                            <img  key={idx} className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' src={img} />
+                                                    ))
+                                                }
+                                            </div>
+                                            <div 
+                                                className="text-[20px] text-gray-600 mt-10"
+                                            >
+                                                <div className='content' dangerouslySetInnerHTML={{__html:el.content}}></div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>

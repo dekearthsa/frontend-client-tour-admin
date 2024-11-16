@@ -1,10 +1,13 @@
 // import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 import axios from 'axios';
 import ComponentTestUploadContent from "../ComponentTest/ComponentTestUploadContent"
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import 'ckeditor5/ckeditor5.css';
 
 const ComponentAdminAddingProductDetail = () => {
 
@@ -118,7 +121,7 @@ const ComponentAdminAddingProductDetail = () => {
             ]
         },
     ];
-    
+
     const [staticRegion, setStaticRegion] = useState(listRegion);
     const [staticProvince, setStaticProvince] = useState([]);
     const [isTitle, setTitle] = useState('');
@@ -131,7 +134,7 @@ const ComponentAdminAddingProductDetail = () => {
     const [isPerson, setPerson] = useState('');
     const [isPricePerPerson, setPricePerPerson] = useState([]);
     const [isDayContent, setDayContent] = useState('');
-    const [isContent, setContent] = useState('');
+    // const [isContent, setContent] = useState('');
     const [isImageFiles, setImageFiles] = useState([]);
     const [imageFilesToPush, setImageFilesToPush] = useState([]);
     const [isImageName, setImageName] = useState([]);
@@ -139,6 +142,46 @@ const ComponentAdminAddingProductDetail = () => {
     const [isDemoShowImages, setDemoShowImages] = useState([]);
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState([]);
+
+    const editorContainerRef = useRef(null);
+    const editorRef = useRef(null);
+    const [isLayoutReady, setIsLayoutReady] = useState(false);
+    const [editorData, setEditorData] = useState(''); // State to store editor content
+
+    useEffect(() => {
+        setIsLayoutReady(true);
+
+        return () => setIsLayoutReady(false);
+    }, []);
+
+    const editorConfig = {
+        toolbar: {
+            items: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link'],
+            shouldNotGroupWhenFull: false,
+        },
+        // Add any additional plugins or configurations as needed
+        initialData: '<p>Edit your content here.</p>',
+        link: {
+            addTargetToExternalLinks: true,
+            defaultProtocol: 'https://',
+            decorators: {
+                toggleDownloadable: {
+                    mode: 'manual',
+                    label: 'Downloadable',
+                    attributes: {
+                        download: 'file',
+                    },
+                },
+            },
+        },
+        placeholder: 'Type or paste your content here!',
+    };
+
+    // Handler for editor content changes
+    const handleEditorChange = (event, editor) => {
+        const data = editor.getData();
+        setEditorData(data);
+    };
 
     const haddlePopup = () => {
         setPopup(!isPopup);
@@ -168,25 +211,25 @@ const ComponentAdminAddingProductDetail = () => {
                 price: isPrice
             };
             setPricePerPerson([...isPricePerPerson, arrayPrice]);
-            console.log("isPricePerPerson => ", isPricePerPerson);
             setPerson('');
             setPrice('');
         }
     }
 
     const haddleAddingContent = () => {
-        if (isDayContent && isContent && isArrayImages.length > 0) {
+        // console.log("editorData => ", editorData)
+        if (isDayContent) {
             const arrayContent = {
                 day: isDayContent,
-                content: isContent,
+                content: editorData,
                 imageBlobUrl: isArrayImages,
                 imageName: isImageName
             };
-            setImageFilesToPush([...imageFilesToPush , ...isImageFiles])
+            setImageFilesToPush([...imageFilesToPush, ...isImageFiles])
             setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
             setArrayActivites([...isArrayActivites, arrayContent]);
             setDayContent('');
-            setContent('');
+            // setContent('');
             setImageFiles([]);
             setArrayImages([]);
         }
@@ -213,7 +256,7 @@ const ComponentAdminAddingProductDetail = () => {
     const haddleCreateProduct = async () => {
         // console.log("imageFilesToPush => ", imageFilesToPush)
         const formData = new FormData();
-        
+
 
         // Append other fields
         imageFilesToPush.forEach((file) => {
@@ -237,7 +280,6 @@ const ComponentAdminAddingProductDetail = () => {
                     // 'Content-Type': `multipart/form-data`
                 }
             });
-            console.log(statusCreate.data);
             if (statusCreate.status === 200) {
                 alert("Create successful!");
                 // Reset the form
@@ -269,7 +311,7 @@ const ComponentAdminAddingProductDetail = () => {
                 setArrayActivites([]);
                 setDemoShowImages([]);
                 alert(`Error ${statusCreate.status}`);
-                
+
             }
         } catch (err) {
             console.log(err);
@@ -278,13 +320,15 @@ const ComponentAdminAddingProductDetail = () => {
         }
     }
 
+
+
     return (
         <>
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
-                // style={{
-                //     backgroundImage: `url(https://img.goodfon.com/original/2048x1128/b/40/bangkok-thailand-bangkok-tailand-gorod-krasota-noch.jpg)`,
-                // }}
+            // style={{
+            //     backgroundImage: `url(https://img.goodfon.com/original/2048x1128/b/40/bangkok-thailand-bangkok-tailand-gorod-krasota-noch.jpg)`,
+            // }}
             >
                 <div className="min-h-screen opacity-90">
 
@@ -293,7 +337,7 @@ const ComponentAdminAddingProductDetail = () => {
                             <ComponentHomeNavbar />
                         </div>
                     </div>
-                    
+
                     <div className="container mx-auto px-4 py-12 ">
                         {
                             isPopup ? <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
@@ -310,7 +354,7 @@ const ComponentAdminAddingProductDetail = () => {
                         }
 
                         <div className="mt-[30px]  grid grid-cols-2  gap-1">
-                            
+
                             <div className=''>
                                 {
                                     isDemoShowImages.map((el, idx) => {
@@ -376,9 +420,9 @@ const ComponentAdminAddingProductDetail = () => {
                                 }
                             </div>
                         </div>
-                                    
+
                         <div className="mt-12 on-set-detail-bg-product rounded-lg shadow-lg p-8 md:p-12 ">
-                             {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
+                            {/* <div className="absolute inset-0 bg-black bg-opacity-60"></div> */}
                             <div className='text-center text-4xl font-bold text-gray-700 mb-[100px]'>Create new product</div>
 
                             <div className="mb-8">
@@ -392,7 +436,7 @@ const ComponentAdminAddingProductDetail = () => {
                                             <input
                                                 className='placeholder:text-[20px] placeholder:translate-y-[-5px] placeholder:translate-x-[15px] rounded-md  border-b-[1px] border-gray-500 '
                                                 placeholder='Product title..'
-                                                onChange={(evt)=>{
+                                                onChange={(evt) => {
                                                     setTitle(evt.target.value)
                                                 }}
                                             />
@@ -402,10 +446,10 @@ const ComponentAdminAddingProductDetail = () => {
                                             <select
                                                 onChange={(e) => {
                                                     setRegion(e.target.value)
-                                                    for(let i = 0; i < staticRegion.length; i++){
-                                                        if(staticRegion[i]['reigon'] === e.target.value){
+                                                    for (let i = 0; i < staticRegion.length; i++) {
+                                                        if (staticRegion[i]['reigon'] === e.target.value) {
                                                             setStaticProvince(staticRegion[i]['data'])
-                                                        }   
+                                                        }
                                                     }
                                                 }}
                                                 name="region"
@@ -413,7 +457,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
                                             >
                                                 <option value="none">Select Region</option>
-                                                {staticRegion.map((el, idx) =>(
+                                                {staticRegion.map((el, idx) => (
                                                     <option key={idx} value={el['reigon']}>{el['reigon']}</option>
                                                 ))}
                                             </select>
@@ -427,7 +471,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className="h-12 w-[220px] md:w-[300px] rounded-l-full px-4 text-gray-700"
                                             >
                                                 <option value="none">Select Province</option>
-                                                
+
                                                 {staticProvince.map((el, idx) => (
                                                     <option key={idx} value={el}>{el}</option>
                                                 ))}
@@ -460,11 +504,11 @@ const ComponentAdminAddingProductDetail = () => {
                                             />
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                             </div>
-                            
+
                             <div className="mt-[70px]">
                                 <h2 className="text-[20px] lg:text-[35px] font-bold text-gray-800 flex items-center mb-6">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="#0a9396" className="w-8 h-8" viewBox="0 0 24 24">
@@ -473,7 +517,7 @@ const ComponentAdminAddingProductDetail = () => {
                                     <span className="ml-4">Introduction</span>
                                 </h2>
                                 <p className="text-[25px] text-gray-600 leading-relaxed">
-                                    <textarea 
+                                    <textarea
                                         className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
                                         onChange={((evt) => {
                                             setIntro(evt.target.value)
@@ -513,19 +557,19 @@ const ComponentAdminAddingProductDetail = () => {
                                                 })}
                                             />
                                         </span>
-                                        <button 
+                                        <button
                                             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                             onClick={haddleAddingPricePerPerson}
-                                            >add</button>
+                                        >add</button>
                                     </div>
                                     {
                                         isPricePerPerson.map((el, idx) => (
-                                            <div key={idx} className= "lg:w-[350px] bg-gray-50 border border-gray-300 rounded-lg p-4 flex justify-between items-center shadow-sm">
+                                            <div key={idx} className="lg:w-[350px] bg-gray-50 border border-gray-300 rounded-lg p-4 flex justify-between items-center shadow-sm">
                                                 {/* {el} */}
                                                 <span className='font-bold'>Person {el.person}</span>
                                                 <span className='font-bold'>Price ฿{el.price}</span>
                                                 <span>
-                                                    <button 
+                                                    <button
                                                         className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
                                                         onClick={() => haddleRemovePrice(idx)}
                                                     >-</button>
@@ -544,8 +588,8 @@ const ComponentAdminAddingProductDetail = () => {
                                     <span className="ml-4">Activities</span>
                                 </h2>
                                 <div className="space-y-6">
-                                    
-                                    <div  className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
+
+                                    <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
                                         <div className='flex'>
                                             <h3 className='text-xl font-bold mr-3'>Day</h3>
                                             <input
@@ -571,50 +615,76 @@ const ComponentAdminAddingProductDetail = () => {
                                         </div>
                                         <div className='mt-10'>
                                             <div className='font-bold text-xl'>Content</div>
-                                            <textarea  
-                                                className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
-                                                onChange={((evt) => {
-                                                    setContent(evt.target.value)
-                                                })}
-                                            >
-                                            </textarea>
-                                        </div>
-                                        <div className='mt-5 mb-5 flex justify-end'>   
-                                            <button 
+
+                                            <div >
+                                                <div className="main-container">
+                                                    <div
+                                                    className="editor-container editor-container_classic-editor"
+                                                    ref={editorContainerRef}
+                                                    >
+                                                    <div className="editor-container__editor">
+                                                        <div ref={editorRef}>
+                                                            {isLayoutReady && (
+                                                                <CKEditor
+                                                                    editor={ClassicEditor}
+                                                                    config={editorConfig}
+                                                                    data={editorData}
+                                                                    onChange={handleEditorChange}
+                                                                />
+                                                            )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        <div className='mt-5 mb-5 flex justify-end'>
+                                            <button
                                                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                                 onClick={haddleAddingContent}
-                                                >Add activities</button>
+                                            >Add activities</button>
                                         </div>
                                         {isArrayActivites.map((el, idx) => (
-                                        <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
-                                            <div className='flex justify-between'>
-                                                <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
-                                                <button 
-                                                    className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
-                                                    onClick={() => {
-                                                        haddleRemoveActivites(idx);
-                                                    }}
-                                                >-</button>
+                                            <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
+                                                <div className='flex justify-between'>
+                                                    <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
+                                                    <button
+                                                        className='text-white font-bold text-xl bg-red-500 hover:bg-red-700 w-10 h-10 rounded-full'
+                                                        onClick={() => {
+                                                            haddleRemoveActivites(idx);
+                                                        }}
+                                                    >-</button>
+                                                </div>
+                                                <div className='grid grid-cols-2'>
+                                                    {
+                                                        el.imageBlobUrl.map((img, idx) => (
+                                                            <img
+                                                                key={idx}
+                                                                className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]'
+                                                                src={img}
+                                                            />
+                                                        ))
+                                                    }
+                                                </div>
+
+                                                <div
+                                                    className="text-[20px] text-gray-600 mt-10"
+                                                    
+                                                    >
+                                                        <div
+                                                            className='content'
+                                                            dangerouslySetInnerHTML={{ __html: el.content }}
+                                                        >
+
+                                                        </div>
+                                                </div>
                                             </div>
-                                            <div className='grid grid-cols-2'>
-                                                {
-                                                    el.imageBlobUrl.map((img, idx) => (
-                                                        <img 
-                                                            key={idx}
-                                                            className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' 
-                                                            src={img} 
-                                                        />
-                                                    ))
-                                                }
-                                            </div>
-                                            
-                                            <p className="text-[20px] text-gray-600 mt-10">{el.content}</p>
-                                        </div>
-                                    ))}
+                                        ))}
                                     </div>
                                 </div>
                                 <div className='text-center mt-10 mb-10'>
-                                    <button 
+                                    <button
                                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
                                         onClick={haddleCreateProduct}
                                     >Create</button>
@@ -624,7 +694,7 @@ const ComponentAdminAddingProductDetail = () => {
                     </div>
                     <ComponentBottonBar />
                 </div>
-                <ComponentTestUploadContent/>
+                <ComponentTestUploadContent />
             </div>
         </>
     )
