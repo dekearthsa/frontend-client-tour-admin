@@ -12,26 +12,7 @@ const ComponentPopularFeature =   () => {
     const [isPopData, setIsPopData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const funcRandomPopular = async (data) => {
-        const lengthData = data.length;
-        const setDataPop = [];
-        const dupIdx = [];
-        try {
-            for (let i = 0; i < 4; i++) {
-                while (true) {
-                    const rndIdx = Math.floor(Math.random() * lengthData);
-                    if (!dupIdx.includes(rndIdx)) {
-                        dupIdx.push(rndIdx);
-                        setDataPop.push(data[rndIdx]);
-                        break;
-                    }
-                }
-            }
-            return setDataPop;
-        } catch (err) {
-            return setDataPop;
-        }
-    };
+
 
     const haddleGetDataPopular = async () => {
         let arrayPopular = []

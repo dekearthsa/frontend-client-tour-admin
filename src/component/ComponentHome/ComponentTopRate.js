@@ -34,7 +34,7 @@ const ComponentTopRate = () => {
         let arrayPopular = []
         const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product");
         for(let i = 0; i < fetchProduct.data.length; i++){
-            if(fetchProduct.data[i].ord === 5){
+            if(fetchProduct.data[i].rate === 5){
                 if(i > 4){
                     break
                 }

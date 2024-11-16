@@ -210,7 +210,6 @@ const ComponentAdminEditProductDetail = () => {
         setEditorData(data);
     };
 
-
     const handleImageChange = (event) => {
         setArrayImages([]);
         setImageFiles([]);
