@@ -145,13 +145,13 @@ const ComponentAdminEditProductDetail = () => {
     // console.log(ord)
     const [isOrd, setOrd] = useState(ord);
     const [isRate, setRate] = useState(rate);
-    const [isIntro, setIntro] = useState(intro);
+    // const [isIntro, setIntro] = useState(intro);
 
     const [isPrice, setPrice] = useState();
     const [isPerson, setPerson] = useState();
     const [isPricePerPerson, setPricePerPerson] = useState(setPricePrice);
     const [isDayContent, setDayContent] = useState();
-    const [isContent, setContent] = useState();
+    // const [isContent, setContent] = useState();
 
     const [isImageName, setImageName] = useState([]);
     const [isImageFiles, setImageFiles] = useState([]);
@@ -166,6 +166,9 @@ const ComponentAdminEditProductDetail = () => {
     const editorRef = useRef(null);
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [editorData, setEditorData] = useState(''); // State to store editor content
+    const [editorDataIntro, setEditorDataIntro] = useState(intro);
+    const fileInputRef = useRef(null);
+
 
     const haddlePopup = () => {
         if (!isPopup) {
@@ -187,7 +190,7 @@ const ComponentAdminEditProductDetail = () => {
             shouldNotGroupWhenFull: false,
         },
         // Add any additional plugins or configurations as needed
-        initialData: '<p>Edit your content here.</p>',
+        initialData: '',
         link: {
             addTargetToExternalLinks: true,
             defaultProtocol: 'https://',
@@ -204,6 +207,11 @@ const ComponentAdminEditProductDetail = () => {
         placeholder: 'Type or paste your content here!',
     };
 
+    const haddleEditorDataIntro = (evt, editor) => {
+        const data = editor.getData();
+        setEditorDataIntro(data);
+    }
+
     // Handler for editor content changes
     const handleEditorChange = (event, editor) => {
         const data = editor.getData();
@@ -211,20 +219,23 @@ const ComponentAdminEditProductDetail = () => {
     };
 
     const handleImageChange = (event) => {
+        // Optionally clear previous selections
         setArrayImages([]);
         setImageFiles([]);
         setImageName([]);
-        const files = Array.from(event.target.files);
-        // console.log("Selected files:", files); // Debugging
-        let arrayImageName = [];
-        files.forEach((file) => {
-            arrayImageName.push(file.name)
-        });
 
+        const files = Array.from(event.target.files);
+
+        // Extract file names
+        const arrayImageName = files.map((file) => file.name);
+
+        // Create object URLs for image previews
         const newImages = files.map((file) => URL.createObjectURL(file));
-        setArrayImages((prevImages) => [...prevImages, ...newImages]);
-        setImageFiles((prevFiles) => [...prevFiles, ...files]);
-        setImageName((prevName) => [...prevName, ...arrayImageName])
+
+        // Update state with new images, files, and names
+        setArrayImages(newImages);
+        setImageFiles(files);
+        setImageName(arrayImageName);
     };
 
     const haddleAddingPricePerPerson = () => {
@@ -249,9 +260,10 @@ const ComponentAdminEditProductDetail = () => {
             setDemoShowImages([...isDemoShowImages, ...isArrayImages]);
             setArrayActivites([...isArrayActivites, arrayContent]);
             setDayContent('');
-            setContent('');
+            // setContent('');
             setImageFiles([]);
             setArrayImages([]);
+            setEditorData("");
         }
     }
 
@@ -269,7 +281,7 @@ const ComponentAdminEditProductDetail = () => {
             formData.append("title", isTitle.trim());
             formData.append("ord", String(isOrd));
             formData.append("rate", String(isRate));
-            formData.append("intro", String(isIntro));
+            formData.append("intro", String(editorDataIntro));
             formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
             formData.append("activites", JSON.stringify(isArrayActivites));
             formData.append("region", isRegion)
@@ -299,7 +311,7 @@ const ComponentAdminEditProductDetail = () => {
                 title: isTitle.trim(),
                 ord: Number(isOrd),
                 rate: Number(isRate),
-                intro: String(isIntro),
+                intro: String(editorDataIntro),
                 pricePerPerson: JSON.stringify(isPricePerPerson),
                 activites: JSON.stringify(isArrayActivites),
                 region: isRegion,
@@ -549,15 +561,25 @@ const ComponentAdminEditProductDetail = () => {
                                     </svg>
                                     <span className="ml-4">Introduction</span>
                                 </h2>
-                                <p className="text-[25px] text-gray-600 leading-relaxed">
-                                    <textarea
-                                        value={isIntro}
-                                        className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
-                                        onChange={((evt) => {
-                                            setIntro(evt.target.value)
-                                        })}
-                                    ></textarea>
-                                </p>
+                                <div className="main-container">
+                                        <div
+                                            className="editor-container editor-container_classic-editor"
+                                            ref={editorContainerRef}
+                                        >
+                                            <div className="editor-container__editor mt-10">
+                                                <div ref={editorRef}>
+                                                    {isLayoutReady && (
+                                                        <CKEditor
+                                                            editor={ClassicEditor}
+                                                            config={editorConfig}
+                                                            data={editorDataIntro}
+                                                            onChange={haddleEditorDataIntro}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div className="mt-10">
                                 <h2 className="text-[20px] lg:text-[35px] font-bold text-gray-800 flex items-center mb-6">

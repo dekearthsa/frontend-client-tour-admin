@@ -4,7 +4,6 @@ import ComponentHomeNavbar from '../ComponentHome/ComponentHomeNavbar';
 import ComponentBottonBar from '../ComponentHome/ComponentBottonBar';
 import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetailPopup";
 import axios from 'axios';
-import ComponentTestUploadContent from "../ComponentTest/ComponentTestUploadContent"
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import 'ckeditor5/ckeditor5.css';
@@ -147,6 +146,8 @@ const ComponentAdminAddingProductDetail = () => {
     const editorRef = useRef(null);
     const [isLayoutReady, setIsLayoutReady] = useState(false);
     const [editorData, setEditorData] = useState(''); // State to store editor content
+    const [editorDataIntro, setEditorDataIntro] = useState('');
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         setIsLayoutReady(true);
@@ -160,7 +161,7 @@ const ComponentAdminAddingProductDetail = () => {
             shouldNotGroupWhenFull: false,
         },
         // Add any additional plugins or configurations as needed
-        initialData: '<p>Edit your content here.</p>',
+        initialData: '',
         link: {
             addTargetToExternalLinks: true,
             defaultProtocol: 'https://',
@@ -183,25 +184,33 @@ const ComponentAdminAddingProductDetail = () => {
         setEditorData(data);
     };
 
+    const haddleEditorDataIntro = (evt, editor) => {
+        const data = editor.getData();
+        setEditorDataIntro(data);
+    }
+
     const haddlePopup = () => {
         setPopup(!isPopup);
     }
 
     const handleImageChange = (event) => {
+        // Optionally clear previous selections
         setArrayImages([]);
         setImageFiles([]);
         setImageName([]);
-        const files = Array.from(event.target.files);
-        // console.log("Selected files:", files); // Debugging
-        let arrayImageName = [];
-        files.forEach((file) => {
-            arrayImageName.push(file.name)
-        });
 
+        const files = Array.from(event.target.files);
+
+        // Extract file names
+        const arrayImageName = files.map((file) => file.name);
+
+        // Create object URLs for image previews
         const newImages = files.map((file) => URL.createObjectURL(file));
-        setArrayImages((prevImages) => [...prevImages, ...newImages]);
-        setImageFiles((prevFiles) => [...prevFiles, ...files]);
-        setImageName((prevName) => [...prevName, ...arrayImageName])
+
+        // Update state with new images, files, and names
+        setArrayImages(newImages);
+        setImageFiles(files);
+        setImageName(arrayImageName);
     };
 
     const haddleAddingPricePerPerson = () => {
@@ -217,6 +226,7 @@ const ComponentAdminAddingProductDetail = () => {
     }
 
     const haddleAddingContent = () => {
+
         // console.log("editorData => ", editorData)
         if (isDayContent) {
             const arrayContent = {
@@ -232,6 +242,11 @@ const ComponentAdminAddingProductDetail = () => {
             // setContent('');
             setImageFiles([]);
             setArrayImages([]);
+            setEditorData("");
+            // console.log("arrayContent => ", arrayContent)
+            // if (fileInputRef.current) {
+            //     fileInputRef.current.value = null;
+            // }
         }
     }
 
@@ -268,18 +283,20 @@ const ComponentAdminAddingProductDetail = () => {
         formData.append("province", isProvince || '');
         formData.append("ord", String(isOrd || 0));
         formData.append("rate", String(isRate || 0));
-        formData.append("intro", String(isIntro || ''));
+        formData.append("intro", String(editorDataIntro || ''));
         formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
         formData.append("activites", JSON.stringify(isArrayActivites));
 
-
+        
         try {
-            // console.log(isRegion, isProvince)
+            console.log(isArrayActivites)
+            console.log(isRegion, isProvince)
             const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/create/product", formData, {
                 headers: {
                     // 'Content-Type': `multipart/form-data`
                 }
             });
+
             if (statusCreate.status === 200) {
                 alert("Create successful!");
                 // Reset the form
@@ -292,6 +309,7 @@ const ComponentAdminAddingProductDetail = () => {
                 setRate('');
                 setIntro('');
                 setPrice('');
+                setEditorDataIntro("");
                 setPricePerPerson([]);
                 setArrayActivites([]);
                 setDemoShowImages([]);
@@ -310,6 +328,7 @@ const ComponentAdminAddingProductDetail = () => {
                 setPricePerPerson([]);
                 setArrayActivites([]);
                 setDemoShowImages([]);
+                setEditorDataIntro("");
                 alert(`Error ${statusCreate.status}`);
 
             }
@@ -326,9 +345,6 @@ const ComponentAdminAddingProductDetail = () => {
         <>
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
-            // style={{
-            //     backgroundImage: `url(https://img.goodfon.com/original/2048x1128/b/40/bangkok-thailand-bangkok-tailand-gorod-krasota-noch.jpg)`,
-            // }}
             >
                 <div className="min-h-screen opacity-90">
 
@@ -516,14 +532,27 @@ const ComponentAdminAddingProductDetail = () => {
                                     </svg>
                                     <span className="ml-4">Introduction</span>
                                 </h2>
-                                <p className="text-[25px] text-gray-600 leading-relaxed">
-                                    <textarea
-                                        className='h-[500px] w-[100%] border-[1px] border-gray-600 rounded-md'
-                                        onChange={((evt) => {
-                                            setIntro(evt.target.value)
-                                        })}
-                                    ></textarea>
-                                </p>
+                                <div >
+                                    <div className="main-container">
+                                        <div
+                                            className="editor-container editor-container_classic-editor"
+                                            ref={editorContainerRef}
+                                        >
+                                            <div className="editor-container__editor mt-10">
+                                                <div ref={editorRef}>
+                                                    {isLayoutReady && (
+                                                        <CKEditor
+                                                            editor={ClassicEditor}
+                                                            config={editorConfig}
+                                                            data={editorDataIntro}
+                                                            onChange={haddleEditorDataIntro}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="mt-10">
                                 <h2 className="text-[20px] lg:text-[35px] font-bold text-gray-800 flex items-center mb-6">
@@ -541,6 +570,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className='border-b-[1px] border-gray-700'
                                                 placeholder='Number Person'
                                                 type="number"
+                                                value={isPerson}
                                                 onChange={((evt) => {
                                                     setPerson(evt.target.value)
                                                 })}
@@ -552,6 +582,7 @@ const ComponentAdminAddingProductDetail = () => {
                                                 className='border-b-[1px] border-gray-700'
                                                 placeholder='Amount price'
                                                 type="number"
+                                                value={isPrice}
                                                 onChange={((evt) => {
                                                     setPrice(evt.target.value)
                                                 })}
@@ -593,6 +624,7 @@ const ComponentAdminAddingProductDetail = () => {
                                         <div className='flex'>
                                             <h3 className='text-xl font-bold mr-3'>Day</h3>
                                             <input
+                                                value={isDayContent}
                                                 className='border-b-[1px] border-gray-700 w-[100px] placeholder:text-center'
                                                 type='number'
                                                 placeholder='Day'
@@ -605,6 +637,7 @@ const ComponentAdminAddingProductDetail = () => {
                                         <div className='a-c-img flex mt-10'>
                                             <h3 className='font-bold text-xl'>Image file</h3>
                                             <input
+                                                ref={fileInputRef}
                                                 multiple
                                                 name="files"
                                                 className='ml-3'
@@ -619,32 +652,33 @@ const ComponentAdminAddingProductDetail = () => {
                                             <div >
                                                 <div className="main-container">
                                                     <div
-                                                    className="editor-container editor-container_classic-editor"
-                                                    ref={editorContainerRef}
+                                                        className="editor-container editor-container_classic-editor"
+                                                        ref={editorContainerRef}
                                                     >
-                                                    <div className="editor-container__editor">
-                                                        <div ref={editorRef}>
-                                                            {isLayoutReady && (
-                                                                <CKEditor
-                                                                    editor={ClassicEditor}
-                                                                    config={editorConfig}
-                                                                    data={editorData}
-                                                                    onChange={handleEditorChange}
-                                                                />
-                                                            )}
+                                                        <div className="editor-container__editor mt-10">
+                                                            <div ref={editorRef}>
+                                                                {isLayoutReady && (
+                                                                    <CKEditor
+                                                                        editor={ClassicEditor}
+                                                                        config={editorConfig}
+                                                                        data={editorData}
+                                                                        onChange={handleEditorChange}
+                                                                    />
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div className='mt-5 mb-5 flex justify-end'>
+                                                        <button
+                                                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
+                                                            onClick={haddleAddingContent}
+                                                        >Add activities</button>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                        <div className='mt-5 mb-5 flex justify-end'>
-                                            <button
-                                                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
-                                                onClick={haddleAddingContent}
-                                            >Add activities</button>
                                         </div>
+
+
                                         {isArrayActivites.map((el, idx) => (
                                             <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm mt-10">
                                                 <div className='flex justify-between'>
@@ -670,14 +704,14 @@ const ComponentAdminAddingProductDetail = () => {
 
                                                 <div
                                                     className="text-[20px] text-gray-600 mt-10"
-                                                    
-                                                    >
-                                                        <div
-                                                            className='content'
-                                                            dangerouslySetInnerHTML={{ __html: el.content }}
-                                                        >
 
-                                                        </div>
+                                                >
+                                                    <div
+                                                        className='content'
+                                                        dangerouslySetInnerHTML={{ __html: el.content }}
+                                                    >
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
@@ -694,7 +728,6 @@ const ComponentAdminAddingProductDetail = () => {
                     </div>
                     <ComponentBottonBar />
                 </div>
-                <ComponentTestUploadContent />
             </div>
         </>
     )

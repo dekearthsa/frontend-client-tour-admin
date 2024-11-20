@@ -21,8 +21,8 @@
 }
 
 .editor-container_classic-editor .editor-container__editor {
-	min-width: 795px;
-	max-width: 795px;
+	min-width: 1300px;
+	max-width: 2795px;
 }
 
 @media only screen and (min-width: 801px) {

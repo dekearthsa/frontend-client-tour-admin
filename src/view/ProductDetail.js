@@ -261,7 +261,7 @@ const ProductDetail = () => {
                                     </svg>
                                     <span className="ml-4">Introduction</span>
                                 </h2>
-                                <p className="text-[25px] text-gray-600 leading-relaxed">{intro}</p>
+                                <div className="text-[18px]  text-gray-600 leading-relaxed  break-words" dangerouslySetInnerHTML={{__html:intro}}></div>
                             </div>
                             <div className="mt-10">
                                 <h2 className="text-[20px] lg:text-[35px] font-bold text-gray-800 flex items-center mb-6">
@@ -302,7 +302,7 @@ const ProductDetail = () => {
                                             <div 
                                                 className="text-[20px] text-gray-600 mt-10"
                                             >
-                                                <div className='content' dangerouslySetInnerHTML={{__html:el.content}}></div>
+                                                <div className='content break-words' dangerouslySetInnerHTML={{__html:el.content}}></div>
                                             </div>
                                         </div>
                                     ))}

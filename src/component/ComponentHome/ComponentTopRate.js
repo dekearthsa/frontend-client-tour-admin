@@ -12,33 +12,35 @@ const ComponentTopRate = () => {
     const [loading, setLoading] = useState(true);
 
 
-    const funcRandomPopular = (data) => {
-        const lengthData = data.length;
-        const dupIdx = [];
-        const setDataPop = [];
+    // const funcRandomPopular = (data) => {
+    //     const lengthData = data.length;
+    //     const dupIdx = [];
+    //     const setDataPop = [];
 
-        for (let i = 0; i < 4; i++) {
-            while (true) {
-                const rndIdx = Math.floor(Math.random() * lengthData);
-                if (!dupIdx.includes(rndIdx)) {
-                    dupIdx.push(rndIdx);
-                    setDataPop.push(data[rndIdx]);
-                    break;
-                }
-            }
-        }
-        return setDataPop;
-    };
+    //     for (let i = 0; i < 4; i++) {
+    //         while (true) {
+    //             const rndIdx = Math.floor(Math.random() * lengthData);
+    //             if (!dupIdx.includes(rndIdx)) {
+    //                 dupIdx.push(rndIdx);
+    //                 setDataPop.push(data[rndIdx]);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return setDataPop;
+    // };
 
     const haddleGetDataPopular = async () => {
         let arrayPopular = []
         const fetchProduct = await axios.get("https://backend-node-product-505177410747.asia-southeast1.run.app/api/get/product");
+        // console.log(fetchProduct.data)
         for(let i = 0; i < fetchProduct.data.length; i++){
             if(fetchProduct.data[i].rate === 5){
-                if(i > 4){
+                if(arrayPopular.length > 3){
                     break
                 }
                 arrayPopular.push(fetchProduct.data[i])
+                // console.log(arrayPopular)
             }
         }
         setLoading(false)
@@ -92,7 +94,10 @@ const ComponentTopRate = () => {
                                     ))}
                                 </div>
                                 <h3 className="text-[22px] md:text-[24px] font-bold mb-1">{el.title}</h3>
-                                <p className="text-gray-600 text-[14px] md:text-[16px] mb-4">{el.intro.slice(0,33)}...</p>
+                                <p className="text-gray-500 mt-2 w-[250px] h-[65px] break-words overflow-auto"
+                                    dangerouslySetInnerHTML={{__html:el.intro}}
+                                >
+                                </p>
                                 <p className="text-gray-500 text-[16px]">Starting from:</p>
                                 <p className="text-gray-800 text-[24px] font-bold">฿{JSON.parse(el.pricePerPerson)[0]['price']}</p>
                             </div>

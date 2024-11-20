@@ -25,7 +25,11 @@ const ComponentCardShop = ({ region, title, intro, pricePerPerson, province, con
                 </div>
                 <div className="p-4">
                     <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
-                    <p className="mt-2 text-gray-600">{intro}</p>
+                    <div className='h-[60px]  break-words overflow-auto'>
+                        <p className='mt-2 text-gray-600'
+                            dangerouslySetInnerHTML={{ __html:intro }}
+                        ></p>
+                    </div>
                     <div className="mt-4">
                         <div className="text-sm text-gray-500">Price starts from:</div>
                         <div className="text-lg font-bold text-indigo-600">฿{JSON.parse(pricePerPerson)[0].price}</div>
