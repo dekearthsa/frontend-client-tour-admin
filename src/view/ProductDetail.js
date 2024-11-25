@@ -9,11 +9,40 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const ProductDetail = () => {
+
+    
+    // console.log("ord => ",ord)
+    const navigate = useNavigate();
+
+    const haddleOrderByASC = (data) => {
+        let arrayDate = []
+        let arrayContentASC = []
+        const rangeArray = data.length
+        for(let i  = 0; i < rangeArray; i++){
+            arrayDate.push(Number(data[i].day))
+        }
+
+        const arrayASC = arrayDate.sort();
+        // console.log("arrayASC => ",arrayASC)
+        for(let i = 0; i < rangeArray; i++){
+            for(let j = 0; j < rangeArray; j++){
+                if( arrayASC[i] === Number(data[j].day)){
+                    // console.log(" => ",data[j].day)
+                    arrayContentASC.push(data[j])
+                    break
+                }
+            }
+        }
+        // console.log("arrayContentASC => ", arrayContentASC)
+        return arrayContentASC
+    }
+    
+
     const [countImage, setCountImage] = useState();
     const [isPopup, setPopup] = useState(false);
     const [isPopupDelete, setPopupDelete] = useState(false);
     const [imageIdx, setImageIdx] = useState();
-
+    
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search);
@@ -26,12 +55,12 @@ const ProductDetail = () => {
     const setPriceJSON = JSON.parse(setPricePrice);
     const content = searchParams.get("content");
     const setContentJSON = JSON.parse(content);
-    console.log("setContentJSON => ",setContentJSON)
+    const ascJSONContent = haddleOrderByASC(setContentJSON);
+    // console.log("setContentJSON => ",setContentJSON)
     const setRegion = searchParams.get("region");
     const setProvince = searchParams.get("province");
     const staticID = searchParams.get("static_id");
-    // console.log("ord => ",ord)
-    const navigate = useNavigate();
+    // haddleOrderByASC()
 
     const haddlePopupDelete = () => {
         if(isPopupDelete){
@@ -293,7 +322,7 @@ const ProductDetail = () => {
                                     <span className="ml-4">Activities</span>
                                 </h2>
                                 <div className="space-y-6">
-                                    {setContentJSON.map((el, idx) => (
+                                    {ascJSONContent.map((el, idx) => (
                                         <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
                                             <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
                                             <div className='grid grid-cols-3 gap-x-4' >
