@@ -271,72 +271,79 @@ const ComponentAdminAddingProductDetail = () => {
     const haddleCreateProduct = async () => {
         // console.log("imageFilesToPush => ", imageFilesToPush)
         const formData = new FormData();
+        const date = new Date()
+        const ms = date.getTime()
 
-
-        // Append other fields
-        imageFilesToPush.forEach((file) => {
-            formData.append("images", file);
-        });
-        // formData.append("images", isImageFiles)
-        formData.append("title", isTitle || '');
-        formData.append("region", isRegion || '');
-        formData.append("province", isProvince || '');
-        formData.append("ord", String(isOrd || 0));
-        formData.append("rate", String(isRate || 0));
-        formData.append("intro", String(editorDataIntro || ''));
-        formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
-        formData.append("activites", JSON.stringify(isArrayActivites));
-
-        
-        try {
-            console.log(isArrayActivites)
-            console.log(isRegion, isProvince)
-            const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/create/product", formData, {
-                headers: {
-                    // 'Content-Type': `multipart/form-data`
-                }
+        if(isTitle.includes("/")){
+            alert("Title name cannot use symbol '/' ")
+        }else{
+            // Append other fields
+            imageFilesToPush.forEach((file) => {
+                formData.append("images", file);
             });
+            // formData.append("images", isImageFiles)
+            formData.append("isUniID", String(ms))
+            formData.append("title", isTitle.trim() || '');
+            formData.append("region", isRegion || '');
+            formData.append("province", isProvince || '');
+            formData.append("ord", String(isOrd || 0));
+            formData.append("rate", String(isRate || 0));
+            formData.append("intro", String(editorDataIntro || ''));
+            formData.append("pricePerPerson", JSON.stringify(isPricePerPerson));
+            formData.append("activites", JSON.stringify(isArrayActivites));
+
+            
+            try {
+                console.log(isArrayActivites)
+                console.log(isRegion, isProvince)
+                const statusCreate = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/create/product", formData, {
+                    headers: {
+                        // 'Content-Type': `multipart/form-data`
+                    }
+                });
 
             if (statusCreate.status === 200) {
-                alert("Create successful!");
-                // Reset the form
-                setImageFiles([]);
-                setImageFilesToPush([]);
-                setTitle('');
-                setRegion('');
-                setProvince('');
-                setOrd('');
-                setRate('');
-                setIntro('');
-                setPrice('');
-                setEditorDataIntro("");
-                setPricePerPerson([]);
-                setArrayActivites([]);
-                setDemoShowImages([]);
-                // window.location("/")
-                window.location.reload();
-            } else {
-                setImageFiles([]);
-                setImageFilesToPush([]);
-                setTitle('');
-                setRegion('');
-                setProvince('');
-                setOrd('');
-                setRate('');
-                setIntro('');
-                setPrice('');
-                setPricePerPerson([]);
-                setArrayActivites([]);
-                setDemoShowImages([]);
-                setEditorDataIntro("");
-                alert(`Error ${statusCreate.status}`);
+                    alert("Create successful!");
+                    // Reset the form
+                    setImageFiles([]);
+                    setImageFilesToPush([]);
+                    setTitle('');
+                    setRegion('');
+                    setProvince('');
+                    setOrd('');
+                    setRate('');
+                    setIntro('');
+                    setPrice('');
+                    setEditorDataIntro("");
+                    setPricePerPerson([]);
+                    setArrayActivites([]);
+                    setDemoShowImages([]);
+                    // window.location("/")
+                    window.location.reload();
+                } else {
+                    setImageFiles([]);
+                    setImageFilesToPush([]);
+                    setTitle('');
+                    setRegion('');
+                    setProvince('');
+                    setOrd('');
+                    setRate('');
+                    setIntro('');
+                    setPrice('');
+                    setPricePerPerson([]);
+                    setArrayActivites([]);
+                    setDemoShowImages([]);
+                    setEditorDataIntro("");
+                    alert(`Error ${statusCreate.status}`);
 
+                }
+            } catch (err) {
+                console.log(err);
+                setImageFiles([]);
+                alert("An error occurred while creating the product.");
             }
-        } catch (err) {
-            console.log(err);
-            setImageFiles([]);
-            alert("An error occurred while creating the product.");
         }
+        
     }
 
 
@@ -520,8 +527,6 @@ const ComponentAdminAddingProductDetail = () => {
                                             />
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
 

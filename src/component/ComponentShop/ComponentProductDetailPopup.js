@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-const ComponentProductDetailPopup = ({images}) => {
+const ComponentProductDetailPopup = ({images, idx}) => {
     const slides = images;
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(idx);
 
     const goToNextSlide = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+        // console.log("goToNextSlide => ",currentIndex)
     };
 
     const goToPrevSlide = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+        // console.log("goToPrevSlide => ",currentIndex)
     };
 
     return (
@@ -59,7 +61,7 @@ const ComponentProductDetailPopup = ({images}) => {
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                    <span className="sr-only">Previous</span>
+                    {/* <span className="sr-only">Previous</span> */}
                 </span>
             </button>
             <button
@@ -77,7 +79,7 @@ const ComponentProductDetailPopup = ({images}) => {
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
                     </svg>
-                    <span className="sr-only">Next</span>
+                    {/* <span className="sr-only">Next</span> */}
                 </span>
             </button>
         </div>
