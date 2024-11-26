@@ -6,6 +6,7 @@ import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetail
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ComponentPopupLoadingCreateUpdate from './ComponentPopupLoadingCreateUpdate';
 import 'ckeditor5/ckeditor5.css';
 
 const ComponentAdminEditProductDetail = () => {
@@ -161,6 +162,7 @@ const ComponentAdminEditProductDetail = () => {
 
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState(content);
+    const [loading, setLoading] = useState(false);
 
     const editorContainerRef = useRef(null);
     const editorRef = useRef(null);
@@ -269,7 +271,7 @@ const ComponentAdminEditProductDetail = () => {
 
 
     const haddleUpdateProduct = async () => {
-
+        setLoading(true)
         const formData = new FormData();
 
         if (imageFilesToPush.length !== 0) {
@@ -295,14 +297,17 @@ const ComponentAdminEditProductDetail = () => {
                 // console.log(statusCreate.data);
                 if (statusCreate.status === 200) {
                     alert("Update successful!");
+                    setLoading(false)
                     window.location.reload();
                     // navigate("/shop")
                 } else {
+                    setLoading(false)
                     alert(`Error ${statusCreate.status}`);
 
                 }
             } catch (err) {
                 console.log(err);
+                setLoading(false)
                 alert("An error occurred while update the product. : ", err);
             }
         } else {
@@ -358,8 +363,10 @@ const ComponentAdminEditProductDetail = () => {
     
 
     return (
-        <>
-
+        <>  
+            {
+                loading? <ComponentPopupLoadingCreateUpdate/> :""
+            }
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
             // style={{

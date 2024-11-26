@@ -6,7 +6,9 @@ import ComponentProductDetailPopup from "../ComponentShop/ComponentProductDetail
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ComponentPopupLoadingCreateUpdate from './ComponentPopupLoadingCreateUpdate';
 import 'ckeditor5/ckeditor5.css';
+
 
 const ComponentAdminAddingProductDetail = () => {
 
@@ -141,6 +143,7 @@ const ComponentAdminAddingProductDetail = () => {
     const [isDemoShowImages, setDemoShowImages] = useState([]);
     const [isPopup, setPopup] = useState(false);
     const [isArrayActivites, setArrayActivites] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const editorContainerRef = useRef(null);
     const editorRef = useRef(null);
@@ -270,6 +273,7 @@ const ComponentAdminAddingProductDetail = () => {
 
     const haddleCreateProduct = async () => {
         // console.log("imageFilesToPush => ", imageFilesToPush)
+        setLoading(true);
         const formData = new FormData();
         const date = new Date()
         const ms = date.getTime()
@@ -319,6 +323,7 @@ const ComponentAdminAddingProductDetail = () => {
                     setArrayActivites([]);
                     setDemoShowImages([]);
                     // window.location("/")
+                    setLoading(false)
                     window.location.reload();
                 } else {
                     setImageFiles([]);
@@ -334,12 +339,14 @@ const ComponentAdminAddingProductDetail = () => {
                     setArrayActivites([]);
                     setDemoShowImages([]);
                     setEditorDataIntro("");
+                    setLoading(false)
                     alert(`Error ${statusCreate.status}`);
 
                 }
             } catch (err) {
                 console.log(err);
                 setImageFiles([]);
+                setLoading(false)
                 alert("An error occurred while creating the product.");
             }
         }
@@ -350,6 +357,9 @@ const ComponentAdminAddingProductDetail = () => {
 
     return (
         <>
+            {
+                loading? <ComponentPopupLoadingCreateUpdate/> : ""
+            }
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
             >

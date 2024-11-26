@@ -7,10 +7,11 @@ import ComponentProductDetailPopup from "../component/ComponentShop/ComponentPro
 // import ComponentWarningDeleteProduct from "../component/ComponentAdmin/ComponentWarningDeleteProduct";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import ComponentPopupLoadingCreateUpdate from '../component/ComponentAdmin/ComponentPopupLoadingCreateUpdate';
 
 const ProductDetail = () => {
 
-    
+    const [loading, setLoading] = useState(false);
     // console.log("ord => ",ord)
     const navigate = useNavigate();
 
@@ -75,6 +76,7 @@ const ProductDetail = () => {
     }
 
     const haddleRemoveProduct = async () => {
+        setLoading(true)
         const payload = {
             title: title
         }
@@ -83,12 +85,15 @@ const ProductDetail = () => {
             const removeStatus = await axios.post("https://backend-node-product-505177410747.asia-southeast1.run.app/api/remove/product", payload);
             if(removeStatus.status === 200){
                 alert("remove success!")
+                setLoading(false)
                 navigate("/shop")
             }else{
+                setLoading(false)
                 alert(removeStatus.status)
             }
         }catch(err){
             alert(err)
+            setLoading(false)
         }
         
 
@@ -133,6 +138,7 @@ const ProductDetail = () => {
 
     return (
         <>
+        {loading?<ComponentPopupLoadingCreateUpdate/> : ""}
             <div
                 className="bg-cover bg-center h-full  w-[100%] bg-[rgb(250,250,250)] bg-gradient-to-tl from-[rgba(250,250,250,1)] to-[rgba(67,89,96,1)]"
                 // style={{
