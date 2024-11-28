@@ -8,6 +8,7 @@ import ComponentProductDetailPopup from "../component/ComponentShop/ComponentPro
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import ComponentPopupLoadingCreateUpdate from '../component/ComponentAdmin/ComponentPopupLoadingCreateUpdate';
+import ComponentImageOnce from '../component/ComponentShop/ComponentImageOnce';
 
 const ProductDetail = () => {
 
@@ -43,7 +44,9 @@ const ProductDetail = () => {
     const [isPopup, setPopup] = useState(false);
     const [isPopupDelete, setPopupDelete] = useState(false);
     const [imageIdx, setImageIdx] = useState();
-    
+    const [imgUrl, setImgUrl] = useState("")
+    const [imgPopup, setImgPopup] = useState(false);
+
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search);
@@ -68,6 +71,15 @@ const ProductDetail = () => {
             setPopupDelete(false)
         }else{
             setPopupDelete(true)
+        }
+    }
+
+    const haddleImgPopup = (img) => {
+        setImgUrl(img)
+        if (imgPopup){
+            setImgPopup(false)
+        }else{
+            setImgPopup(true)
         }
     }
 
@@ -206,7 +218,19 @@ const ProductDetail = () => {
                                 <ComponentProductDetailPopup images={images} idx={imageIdx} />
                             </div> : <div className=""></div>
                         }
-
+                        {       
+                            imgPopup? 
+                            <div className="fixed inset-0 shadow-xlrounded-xl bg-white z-10">
+                                <div className='right-0  mr-10 absolute z-50 text-black text-[40px]'>
+                                    <button
+                                        onClick={() => {
+                                            haddleImgPopup("");
+                                        }}
+                                    >X</button>
+                                </div>
+                            <ComponentImageOnce image={imgUrl} />
+                        </div> : <div className=""></div>
+                        }
                         <div className="mt-[30px]  grid grid-cols-2  gap-1">
                             <div className=''>
                                 {
@@ -331,16 +355,18 @@ const ProductDetail = () => {
                                     {ascJSONContent.map((el, idx) => (
                                         <div key={idx} className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm">
                                             <h3 className="text-[25px] font-semibold text-gray-800">DAY {el.day}</h3>
-                                            <div className='grid grid-cols-3 gap-x-4' >
+                                            <div className='grid grid-cols-3 mt-10'>
                                                 {
                                                     el.image.map((img, idx) => (
-                                                            <img  key={idx} className='mt-5 object-fill rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' src={img} />
-                                                    ))
+                                                        <button
+                                                            onClick={() => {haddleImgPopup(img)}}
+                                                        >
+                                                            <img className='object-cover rounded-lg w-[260px] h-[150px] lg:w-[550px] lg:h-[310px]' src={img} />
+                                                        </button>
+                                                    )) 
                                                 }
                                             </div>
-                                            <div 
-                                                className="text-[20px] text-gray-600 mt-10"
-                                            >
+                                            <div className="text-[20px] text-gray-600 mt-10">
                                                 <div className='content break-words' dangerouslySetInnerHTML={{__html:el.content}}></div>
                                             </div>
                                         </div>
